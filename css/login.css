@@ -1,0 +1,111 @@
+/* user-app/css/login.css */
+.login-container {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #ffffff;
+  min-height: 100dvh;
+}
+
+.header {
+  text-align: center;
+  padding: 10px 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: #202020;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 145px;
+}
+
+#loginForm {
+  display: block;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0a0a0;
+  width: 20px;
+  height: 20px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 19px 16px 19px 52px;
+  border: none;
+  background-color: #fafafa;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 2px #d7d7d7;
+}
+
+.form-control::placeholder {
+  color: #a0a0a0;
+}
+
+.forgot-password {
+  text-align: right;
+  margin-bottom: 40px;
+}
+
+.forgot-password a {
+  color: #2578e7;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-btn-container {
+  margin-top: 285px;
+  margin-bottom: 0px;
+}
+
+@media (max-height: 720px) {
+  .header { margin-bottom: 90px; }
+  .login-btn-container { margin-top: 150px; }
+}
+
+.login-seo-content {
+  width: min(760px, calc(100% - 32px));
+  margin: 32px auto 56px;
+  padding: clamp(22px, 5vw, 40px);
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  border-radius: 18px;
+  box-shadow: 0 14px 36px rgba(0, 0, 0, .06);
+  color: #3f3f3f;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.login-seo-content h2,
+.login-seo-content h3 { color: #171717; line-height: 1.3; }
+.login-seo-content h2 { margin: 28px 0 10px; font-size: clamp(20px, 4vw, 27px); }
+.login-seo-content h2:first-of-type { margin-top: 12px; }
+.login-seo-content h3 { margin: 20px 0 6px; font-size: 17px; }
+.login-seo-content p { margin: 0 0 14px; }
+.seo-kicker { display: inline-flex; padding: 6px 11px; border-radius: 999px; background: #f1f1f1; color: #555; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.seo-card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 22px 0; }
+.seo-card { padding: 18px; border: 1px solid #e7e7e7; border-radius: 14px; background: #fafafa; }
+.seo-card h2 { margin: 0 0 8px; font-size: 17px; }
+.seo-card p { font-size: 14px; }
+.seo-card a, .seo-links a { color: #2578e7; font-weight: 600; text-decoration: none; }
+.seo-takeaway { margin: 8px 0; padding: 15px 17px; border-left: 4px solid #8f8f8f; border-radius: 0 12px 12px 0; background: #f6f6f6; }
+.seo-links { display: flex; flex-wrap: wrap; gap: 10px 20px; margin-top: 24px; padding-top: 18px; border-top: 1px solid #e8e8e8; }
+
+@media (max-width: 560px) {
+  .seo-card-grid { grid-template-columns: 1fr; }
+}
