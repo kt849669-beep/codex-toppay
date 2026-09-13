@@ -1,0 +1,1648 @@
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}img{max-width:100%}h1,h2,h3,p{overflow-wrap:anywhere}
+.admin-login-page {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: radial-gradient(circle at 15% 15%, #143c28, #07110c 42%, #030806);
+}
+.admin-login-card {
+  width: min(100%, 420px);
+  padding: 34px;
+  border: 1px solid #ffffff16;
+  border-radius: 24px;
+  background: #0e1511ee;
+  color: #fff;
+  box-shadow: 0 32px 90px #0008;
+}
+.admin-login-logo {
+  width: 86px;
+  height: 60px;
+  padding: 7px;
+  display: block;
+  object-fit: contain;
+  border-radius: 12px;
+  background: #fff;
+}
+.admin-login-card > p {
+  margin: 25px 0 6px;
+  color: #52d08a;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+.admin-login-card h1 {
+  margin: 0 0 28px;
+  font-size: 31px;
+}
+.admin-login-card form {
+  display: grid;
+  gap: 18px;
+}
+.admin-login-card label {
+  display: grid;
+  gap: 8px;
+  color: #b5c1ba;
+  font-size: 13px;
+  font-weight: 700;
+}
+.admin-login-card input {
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid #ffffff20;
+  border-radius: 10px;
+  outline: 0;
+  background: #ffffff0b;
+  color: #fff;
+}
+.admin-login-card input:focus {
+  border-color: #30b976;
+  box-shadow: 0 0 0 3px #30b97625;
+}
+.admin-login-card form > button {
+  height: 50px;
+  border: 0;
+  border-radius: 10px;
+  background: #0f9b54;
+  color: #fff;
+  font-weight: 800;
+}
+.admin-error {
+  color: #ff9c9c;
+  font-size: 13px;
+}
+.admin-shell {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-columns: 254px minmax(0, 1fr);
+  background: #f2f5f3;
+}
+.admin-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: 22px 15px 18px;
+  background: #08100c;
+  color: #fff;
+}
+.admin-brand {
+  min-height: 65px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 8px 18px;
+  border-bottom: 1px solid #ffffff12;
+}
+.admin-brand img {
+  width: 55px;
+  height: 43px;
+  padding: 4px;
+  object-fit: contain;
+  border-radius: 9px;
+  background: #fff;
+}
+.admin-brand span {
+  display: flex;
+  flex-direction: column;
+}
+.admin-brand strong {
+  font-size: 17px;
+  letter-spacing: 1px;
+}
+.admin-brand small {
+  color: #72a888;
+  font-size: 9px;
+  letter-spacing: 1.6px;
+}
+.admin-brand > button {
+  display: none;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #fff;
+}
+.admin-sidebar nav {
+  display: grid;
+  gap: 4px;
+  margin-top: 20px;
+}
+.admin-sidebar nav button,
+.admin-signout {
+  height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 9px;
+  background: transparent;
+  color: #98a9a0;
+  text-align: left;
+}
+.admin-sidebar nav button svg,
+.admin-signout svg {
+  width: 19px;
+}
+.admin-sidebar nav button.active {
+  background: #159452;
+  color: #fff;
+  box-shadow: 0 7px 18px #15945235;
+}
+.admin-signout {
+  margin-top: auto;
+  color: #ff9b9b;
+}
+.admin-main {
+  min-width: 0;
+}
+.admin-topbar {
+  position: sticky;
+  z-index: 5;
+  top: 0;
+  height: 76px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 0 30px;
+  border-bottom: 1px solid #dde2df;
+  background: #fffffff2;
+  backdrop-filter: blur(12px);
+}
+.admin-topbar small {
+  color: #0c9050;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+}
+.admin-topbar h1 {
+  margin: 2px 0 0;
+  font-size: 22px;
+}
+.menu-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 0;
+  border-radius: 9px;
+  background: #eff3f1;
+}
+.sync-dot {
+  margin-left: auto;
+  padding: 6px 10px;
+  border-radius: 20px;
+  background: #e0f7ea;
+  color: #08743e;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+.admin-content {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px;
+}
+.save-notice {
+  position: fixed;
+  z-index: 20;
+  right: 24px;
+  bottom: 24px;
+  padding: 11px 16px;
+  border-radius: 10px;
+  background: #0a1510;
+  color: #fff;
+  box-shadow: 0 10px 30px #0003;
+  font-size: 13px;
+}
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.metric-card {
+  min-height: 124px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 21px;
+  border: 1px solid #e0e5e2;
+  border-radius: 15px;
+  background: #fff;
+  box-shadow: 0 8px 30px #0c251713;
+}
+.metric-card span {
+  color: #7e8983;
+  font-size: 13px;
+  font-weight: 700;
+}
+.metric-card strong {
+  color: #0b6d3a;
+  font-size: 34px;
+}
+.admin-panel {
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #e0e5e2;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 8px 30px #0c251710;
+}
+.panel-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+.panel-heading h2 {
+  margin: 0;
+  font-size: 21px;
+}
+.panel-heading p {
+  margin: 6px 0 0;
+  color: #7e8782;
+  font-size: 13px;
+}
+.user-table {
+  display: grid;
+  gap: 8px;
+}
+.user-table article {
+  min-height: 64px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 16px;
+  padding: 10px 14px;
+  border: 1px solid #e9ecea;
+  border-radius: 11px;
+  background: #fafcfb;
+}
+.user-table article > div:first-child {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.user-table strong {
+  font-size: 14px;
+}
+.user-table span {
+  color: #8a918d;
+  font-size: 12px;
+}
+.user-table em {
+  padding: 5px 8px;
+  border-radius: 20px;
+  background: #ddf7e8;
+  color: #08703b;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 800;
+}
+.user-table button,
+.row-actions button {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 1px solid #dce3df;
+  border-radius: 8px;
+  background: #fff;
+  color: #34413a;
+  font-size: 12px;
+}
+.user-table button svg {
+  width: 15px;
+}
+.row-actions {
+  display: flex;
+  gap: 6px;
+}
+.danger-action {
+  color: #c14343 !important;
+}
+.empty-state {
+  min-height: 210px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  color: #9aa29d;
+}
+.empty-state svg {
+  width: 38px;
+  height: 38px;
+}
+.empty-state p {
+  margin: 10px 0 0;
+}
+.upload-box,
+.media-upload {
+  min-height: 145px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 7px;
+  padding: 20px;
+  border: 1.5px dashed #b8c5be;
+  border-radius: 13px;
+  background: #f7faf8;
+  color: #445149;
+  text-align: center;
+  cursor: pointer;
+}
+.upload-box input,
+.media-upload input {
+  display: none;
+}
+.upload-box svg,
+.media-upload > svg {
+  width: 31px;
+  color: #11834a;
+}
+.upload-box span,
+.media-upload span {
+  color: #8a948e;
+  font-size: 12px;
+}
+.asset-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 13px;
+  margin-top: 18px;
+}
+.asset-grid article {
+  overflow: hidden;
+  border: 1px solid #e0e5e2;
+  border-radius: 12px;
+  background: #fff;
+}
+.asset-grid img {
+  width: 100%;
+  aspect-ratio: 16/8;
+  display: block;
+  object-fit: cover;
+}
+.asset-grid article div {
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+}
+.asset-grid article span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+}
+.asset-grid article button {
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  color: #c14343;
+}
+.asset-grid article svg {
+  width: 16px;
+}
+.control-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e2e8e4;
+  border-radius: 13px;
+  background: #f7faf8;
+}
+.control-head > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.control-head span {
+  color: #838d87;
+  font-size: 13px;
+}
+.switch-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.switch-wrap [data-slot='switch'][data-checked] {
+  background: #0f9b54;
+}
+.switch-wrap [data-slot='switch'][data-unchecked] {
+  background: #cbd1ce;
+}
+.switch-wrap [data-slot='switch'] [data-slot='switch-thumb'] {
+  background: #fff;
+}
+.switch-wrap b {
+  width: 28px;
+  color: #4b5650;
+  font-size: 11px;
+}
+.control-form {
+  display: grid;
+  gap: 17px;
+  margin-top: 20px;
+}
+.text-field,
+.select-field {
+  display: grid;
+  gap: 8px;
+  color: #4e5852;
+  font-size: 13px;
+  font-weight: 700;
+}
+.text-field input,
+.select-field select {
+  height: 46px;
+  padding: 0 13px;
+  border: 1px solid #dbe1de;
+  border-radius: 9px;
+  outline: 0;
+  background: #fff;
+}
+.text-field input:focus,
+.select-field select:focus {
+  border-color: #1ca35c;
+  box-shadow: 0 0 0 3px #1ca35c1c;
+}
+.media-upload {
+  min-height: 185px;
+  overflow: hidden;
+}
+.media-upload img,
+.media-upload video {
+  width: 100%;
+  max-height: 270px;
+  display: block;
+  object-fit: contain;
+}
+.admin-secondary-button {
+  margin-top: 10px !important;
+  border: 1px solid #d8dedb !important;
+  background: #fff !important;
+  color: #405047 !important;
+}
+.security-box {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 22px;
+  padding: 18px;
+  border: 1px solid #dce5df;
+  border-radius: 14px;
+  background: #f8fbf9;
+}
+.security-box > div {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+.security-box strong {
+  color: #17241d;
+  font-size: 15px;
+}
+.security-box span {
+  color: #758179;
+  font-size: 12px;
+}
+.security-box button,
+.mfa-setup-card button,
+.password-change-form button {
+  min-height: 40px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: 9px;
+  background: #11834a;
+  color: #fff;
+  font-weight: 800;
+}
+.security-box button:disabled,
+.mfa-setup-card button:disabled,
+.password-change-form button:disabled {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+.security-status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #e2f7e9;
+  color: #168044;
+  font-size: 11px;
+}
+.trusted-device-box {
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid #dce5df;
+  border-radius: 14px;
+  background: #f8fbf9;
+}
+.trusted-device-box > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.trusted-device-box > header > div {
+  min-width: 0;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 5px;
+}
+.trusted-device-box > header strong {
+  color: #17241d;
+  font-size: 15px;
+}
+.trusted-device-box > header span {
+  max-width: 590px;
+  color: #758179;
+  font-size: 12px;
+  line-height: 1.5;
+}
+.trusted-device-box > header > button {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #d6e0da;
+  border-radius: 9px;
+  background: #fff;
+  color: #168044;
+}
+.trusted-device-box > header > button svg {
+  width: 17px;
+}
+.trusted-device-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+.trusted-device-list article {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 11px;
+  padding: 13px;
+  border: 1px solid #dce5df;
+  border-radius: 11px;
+  background: #fff;
+}
+.trusted-device-list article.current {
+  border-color: #94caaa;
+  box-shadow: inset 3px 0 #168044;
+}
+.trusted-device-list article > svg {
+  width: 20px;
+  color: #168044;
+}
+.trusted-device-list article > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.trusted-device-list article > div strong {
+  color: #17241d;
+  font-size: 13px;
+}
+.trusted-device-list article > div span {
+  overflow: hidden;
+  color: #7c8881;
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.trusted-device-list .device-trust-control {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: #4d5d54;
+  font-size: 12px;
+  font-weight: 700;
+}
+.trusted-device-list .device-trust-control > svg {
+  width: 15px;
+  color: #168044;
+}
+.trusted-device-list .device-signout {
+  min-height: 35px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 11px;
+  border: 1px solid #f0caca;
+  border-radius: 8px;
+  background: #fff8f8;
+  color: #b63d3d;
+  font-size: 12px;
+  font-weight: 750;
+}
+.trusted-device-list .device-signout svg {
+  width: 14px;
+}
+.trusted-device-list button:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+.device-empty {
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed #cad7cf;
+  border-radius: 10px;
+  color: #758179;
+  font-size: 13px;
+  text-align: center;
+}
+.mfa-setup-card,
+.password-change-form {
+  display: grid;
+  gap: 13px;
+  margin-top: 16px;
+  padding: 18px;
+  border: 1px solid #dce5df;
+  border-radius: 14px;
+  background: #fff;
+}
+.mfa-setup-card p,
+.password-change-form p {
+  margin: 0;
+  color: #6f7b73;
+  font-size: 12px;
+  line-height: 1.55;
+}
+.mfa-setup-card img {
+  width: 220px;
+  max-width: 100%;
+  margin: auto;
+  border-radius: 10px;
+}
+.mfa-setup-card code {
+  overflow-wrap: anywhere;
+  padding: 10px;
+  border-radius: 8px;
+  background: #f3f6f4;
+  color: #1f4e35;
+  font-size: 12px;
+  text-align: center;
+}
+.mfa-setup-card label,
+.password-change-form label {
+  display: grid;
+  gap: 6px;
+  color: #516057;
+  font-size: 12px;
+  font-weight: 700;
+}
+.mfa-setup-card input,
+.password-change-form input {
+  width: 100%;
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #d4ddd8;
+  border-radius: 8px;
+  outline: 0;
+  background: #fff;
+  color: #17241d;
+}
+.password-change-form h3 {
+  margin: 0;
+  color: #17241d;
+  font-size: 17px;
+}
+.profile-box {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 18px;
+  border-radius: 13px;
+  background: #f6f9f7;
+}
+.profile-box img {
+  width: 75px;
+  height: 58px;
+  padding: 6px;
+  object-fit: contain;
+  border-radius: 10px;
+  background: #fff;
+}
+.profile-box div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.profile-box span {
+  color: #7c8881;
+  font-size: 13px;
+}
+.profile-signout {
+  min-height: 43px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 15px;
+  margin-top: 17px;
+  border: 0;
+  border-radius: 9px;
+  background: #151b18;
+  color: #fff;
+}
+.profile-signout svg {
+  width: 17px;
+}
+.admin-scrim {
+  display: none;
+}
+@media (max-width: 900px) {
+  .admin-shell {
+    display: block;
+  }
+  .admin-sidebar {
+    position: fixed;
+    z-index: 30;
+    inset: 0 auto 0 0;
+    width: min(84vw, 275px);
+    transform: translateX(-105%);
+    transition: transform 0.22s ease;
+  }
+  .admin-sidebar.open {
+    transform: translateX(0);
+  }
+  .admin-brand > button,
+  .menu-toggle {
+    display: grid;
+  }
+  .admin-scrim {
+    position: fixed;
+    z-index: 25;
+    inset: 0;
+    display: block;
+    border: 0;
+    background: #020704a8;
+  }
+  .admin-topbar {
+    height: 70px;
+    padding: 0 16px;
+  }
+  .admin-content {
+    padding: 18px 14px;
+  }
+  .metric-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .admin-login-card {
+    padding: 27px 22px;
+  }
+  .metric-grid {
+    gap: 10px;
+  }
+  .metric-card {
+    min-height: 105px;
+    padding: 16px;
+  }
+  .metric-card strong {
+    font-size: 29px;
+  }
+  .admin-panel {
+    padding: 17px 13px;
+    border-radius: 13px;
+  }
+  .trusted-device-box {
+    padding: 14px;
+  }
+  .trusted-device-list article {
+    grid-template-columns: 28px minmax(0, 1fr);
+  }
+  .trusted-device-list .device-trust-control,
+  .trusted-device-list .device-signout {
+    grid-column: 2;
+    justify-self: start;
+  }
+  .user-table article {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 9px;
+  }
+  .user-table article > em {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .user-table article > button,
+  .user-table article > .row-actions {
+    grid-column: 1/-1;
+  }
+  .row-actions {
+    width: 100%;
+  }
+  .row-actions button {
+    flex: 1;
+    justify-content: center;
+  }
+  .asset-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .control-head {
+    align-items: flex-start;
+  }
+}
+
+
+/* Admin-only theme: keep every selector scoped away from the user app. */
+.toppay-admin {
+  --admin-accent: #58d68a;
+  --admin-muted: #9ba8a0;
+  --admin-line: #28372f;
+  --admin-panel: #121b17;
+  color: #f3f7f4;
+  font-family: Manrope, Arial, sans-serif;
+  color-scheme: dark;
+  font-size: 14px;
+}
+.toppay-admin :is(button, input, select) {
+  font-family: inherit;
+}
+.toppay-admin :is(button, a, input, select):focus-visible {
+  outline: 2px solid var(--admin-accent);
+  outline-offset: 3px;
+}
+.toppay-admin.admin-login-page {
+  min-height: 100dvh;
+  background:
+    radial-gradient(circle at 17% 18%, #257b393b, transparent 31%),
+    radial-gradient(circle at 82% 76%, #09595047, transparent 34%), #080e0b;
+}
+.toppay-admin .admin-login-card {
+  width: min(460px, 100%);
+  padding: 42px 40px;
+  border: 1px solid #304139;
+  border-radius: 27px;
+  background: linear-gradient(145deg, #16211b, #101913);
+  box-shadow: 0 30px 90px #000b;
+}
+.toppay-admin .login-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.toppay-admin .admin-login-logo {
+  width: 59px;
+  height: 59px;
+  padding: 5px;
+  border-radius: 15px;
+  background: #fff;
+  object-fit: contain;
+}
+.toppay-admin .login-brand > div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.toppay-admin .login-brand strong {
+  font-size: 27px;
+  line-height: 1.2;
+}
+.toppay-admin .login-brand small {
+  color: var(--admin-accent);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  font-weight: 800;
+}
+.toppay-admin .login-heading {
+  margin-top: 40px;
+}
+.toppay-admin .login-heading > span {
+  color: var(--admin-accent);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+}
+.toppay-admin .login-heading h1 {
+  font-size: 31px;
+  margin: 14px 0 9px;
+}
+.toppay-admin .login-heading p {
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+.toppay-admin .admin-login-card form {
+  gap: 20px;
+  margin-top: 31px;
+}
+.toppay-admin .admin-login-card label {
+  gap: 9px;
+  font-size: 14px;
+  color: #d5dfd8;
+  font-weight: 500;
+}
+.toppay-admin .login-input {
+  height: 53px;
+  padding: 0 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  background: #0b130e;
+}
+.toppay-admin .login-input svg {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--admin-accent);
+}
+.toppay-admin .login-input input {
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  font-size: 16px;
+}
+.toppay-admin .login-input:focus-within {
+  border-color: var(--admin-accent);
+}
+.toppay-admin .login-input input:focus {
+  box-shadow: none;
+  outline: none;
+}
+.toppay-admin .admin-login-card form > button {
+  height: 53px;
+  background: linear-gradient(100deg, #89e7ac, #38bc75);
+  color: #0d1a12;
+  font-weight: 800;
+}
+.toppay-admin.admin-shell {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  background: #090f0c;
+}
+.toppay-admin .admin-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: 250px;
+  height: 100dvh;
+  z-index: 20;
+  padding: 24px 15px;
+  border-right: 1px solid var(--admin-line);
+  background: #101a14;
+  overflow-y: auto;
+}
+.toppay-admin .admin-brand {
+  min-height: 80px;
+  padding: 0 8px 30px;
+  border: 0;
+}
+.toppay-admin .admin-brand img {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+.toppay-admin .admin-brand strong {
+  font-size: 20px;
+  letter-spacing: 0;
+}
+.toppay-admin .admin-brand small {
+  color: var(--admin-accent);
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+.toppay-admin .admin-sidebar nav {
+  gap: 5px;
+  margin-top: 0;
+}
+.toppay-admin .admin-sidebar nav button {
+  height: 44px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-muted);
+}
+.toppay-admin .admin-sidebar nav button:hover,
+.toppay-admin .admin-sidebar nav button.active {
+  background: #1b2a21;
+  color: #fff;
+}
+.toppay-admin .admin-sidebar nav button.active {
+  box-shadow: inset 3px 0 var(--admin-accent);
+}
+.toppay-admin .admin-sidebar nav button.active svg {
+  color: var(--admin-accent);
+}
+.toppay-admin .admin-signout {
+  color: var(--admin-muted);
+  font-size: 14px;
+  margin-top: auto;
+}
+.toppay-admin .admin-main {
+  grid-column: 2;
+}
+.toppay-admin .admin-topbar {
+  height: 78px;
+  padding: 0 3vw;
+  z-index: 10;
+  border-bottom: 1px solid var(--admin-line);
+  background: #101a14eb;
+  backdrop-filter: blur(14px);
+}
+.toppay-admin .admin-title {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 0;
+}
+.toppay-admin .admin-title > img {
+  width: 42px;
+  height: 42px;
+  padding: 4px;
+  object-fit: contain;
+  border-radius: 11px;
+  background: #fff;
+}
+.toppay-admin .admin-title > div {
+  min-width: 0;
+}
+.toppay-admin .admin-topbar small {
+  color: var(--admin-accent);
+  font-size: 12px;
+  letter-spacing: 0.15em;
+}
+.toppay-admin .admin-topbar h1 {
+  font-size: 21px;
+  margin: 4px 0 0;
+}
+.toppay-admin .sync-dot {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  border: 1px solid #2e4e3d;
+  background: #132b1e;
+  color: #87deb0;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+.toppay-admin .sync-dot i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #42e293;
+  box-shadow: 0 0 0 3px #42e29322;
+}
+.toppay-admin .menu-toggle {
+  background: transparent;
+  color: #f3f7f4;
+}
+.toppay-admin .admin-content {
+  padding: 34px 3vw 70px;
+  max-width: 1500px;
+}
+.toppay-admin .admin-welcome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 190px;
+  padding: 38px;
+  border: 1px solid #314d3b;
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 88% 40%, #58d68a24, transparent 28%),
+    linear-gradient(125deg, #142219, #121b17);
+}
+.toppay-admin .admin-welcome > div > span {
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  font-weight: 800;
+  color: var(--admin-accent);
+}
+.toppay-admin .admin-welcome h2 {
+  margin: 13px 0 8px;
+  font-size: 31px;
+  line-height: 1.3;
+}
+.toppay-admin .admin-welcome p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--admin-muted);
+}
+.toppay-admin .welcome-icon {
+  flex-shrink: 0;
+  width: 75px;
+  height: 75px;
+  display: grid;
+  place-items: center;
+  border-radius: 20px;
+  color: var(--admin-accent);
+  background: #203e2a;
+}
+.toppay-admin .welcome-icon svg {
+  width: 35px;
+  height: 35px;
+}
+.toppay-admin .metric-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 18px 0;
+  gap: 14px;
+}
+.toppay-admin .metric-card {
+  display: grid;
+  grid-template-columns: 43px minmax(0, 1fr);
+  column-gap: 12px;
+  align-content: start;
+  min-height: 145px;
+  padding: 18px;
+  border: 1px solid var(--admin-line);
+  border-radius: 14px;
+  background: var(--admin-panel);
+  box-shadow: none;
+}
+.toppay-admin .metric-icon {
+  display: grid;
+  place-items: center;
+  grid-row: 1/4;
+  width: 43px;
+  height: 43px;
+  border-radius: 11px;
+  background: #1d3928;
+  color: var(--admin-accent);
+}
+.toppay-admin .metric-icon svg {
+  width: 20px;
+  height: 20px;
+}
+.toppay-admin .metric-card > span {
+  color: var(--admin-muted);
+  font-size: 14px;
+  font-weight: 500;
+}
+.toppay-admin .metric-card strong {
+  font-size: 25px;
+  color: #f3f7f4;
+  margin-top: 3px;
+}
+.toppay-admin .metric-card small {
+  color: var(--admin-muted);
+  font-size: 12px;
+  margin-top: 3px;
+}
+.toppay-admin .admin-panel {
+  padding: 24px;
+  border: 1px solid var(--admin-line);
+  border-radius: 16px;
+  background: var(--admin-panel);
+  box-shadow: none;
+}
+.toppay-admin .panel-heading h2 {
+  font-size: 19px;
+  margin: 7px 0 4px;
+}
+.toppay-admin .panel-heading p {
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+.toppay-admin .admin-records {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+.toppay-admin .admin-records table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+.toppay-admin .admin-records th {
+  background: #0c140f;
+  color: var(--admin-muted);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 15px 12px;
+  white-space: nowrap;
+}
+.toppay-admin .admin-records td {
+  padding: 17px 12px;
+  border-bottom: 1px solid var(--admin-line);
+  color: #d5dfd8;
+}
+.toppay-admin .admin-records em {
+  display: inline-block;
+  padding: 5px 9px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-style: normal;
+  color: #88dbaa;
+  background: #153521;
+}
+.toppay-admin .admin-records button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--admin-line);
+  border-radius: 8px;
+  background: #16241b;
+  color: #d7e7dc;
+  font-size: 13px;
+}
+.toppay-admin .admin-records button svg {
+  width: 15px;
+  height: 15px;
+}
+.toppay-admin .danger-action {
+  color: #ff8e95 !important;
+}
+.toppay-admin .empty-state {
+  min-height: 210px;
+  color: var(--admin-muted);
+  border: 1px dashed var(--admin-line);
+  border-radius: 12px;
+}
+.toppay-admin :is(.upload-box, .media-upload) {
+  border-color: #385b45;
+  background: #0c150f;
+  color: #d9e5dd;
+}
+.toppay-admin :is(.upload-box, .media-upload) > svg {
+  color: var(--admin-accent);
+}
+.toppay-admin :is(.upload-box, .media-upload) span {
+  color: var(--admin-muted);
+}
+.toppay-admin .asset-grid article {
+  border-color: var(--admin-line);
+  background: #0d1711;
+}
+.toppay-admin .asset-grid article button {
+  color: #ff8e95;
+}
+.toppay-admin .control-head {
+  background: #0d1711;
+  border-color: var(--admin-line);
+  border-radius: 12px;
+}
+.toppay-admin .control-head:has([data-checked]) {
+  border-color: #3a7150;
+}
+.toppay-admin .control-head span {
+  color: var(--admin-muted);
+}
+.toppay-admin .switch-wrap b {
+  color: var(--admin-accent);
+}
+.toppay-admin [data-slot='switch'][data-checked] {
+  background: #3cbd75;
+}
+.toppay-admin [data-slot='switch'][data-unchecked] {
+  background: #38483e;
+}
+.toppay-admin [data-slot='switch-thumb'] {
+  background: #fff;
+}
+.toppay-admin
+  :is(
+    .text-field,
+    .select-field,
+    .mfa-setup-card label,
+    .password-change-form label
+  ) {
+  color: #d5dfd8;
+  font-size: 14px;
+}
+.toppay-admin
+  :is(
+    .text-field input,
+    .select-field select,
+    .mfa-setup-card input,
+    .password-change-form input
+  ) {
+  background: #0b140e;
+  border: 1px solid var(--admin-line);
+  color: #f3f7f4;
+  font-size: 16px;
+}
+.toppay-admin
+  :is(
+    .text-field input,
+    .select-field select,
+    .mfa-setup-card input,
+    .password-change-form input
+  ):focus {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 3px #58d68a18;
+}
+.toppay-admin
+  :is(
+    .profile-box,
+    .security-box,
+    .trusted-device-box,
+    .mfa-setup-card,
+    .password-change-form
+  ) {
+  border-color: var(--admin-line);
+  background: #0e1812;
+}
+.toppay-admin
+  :is(.profile-box, .security-box, .trusted-device-box, .trusted-device-list)
+  strong {
+  color: #eff6f1;
+}
+.toppay-admin :is(.profile-box, .security-box, .trusted-device-box) span {
+  color: var(--admin-muted);
+}
+.toppay-admin
+  :is(
+    .security-box button,
+    .mfa-setup-card button,
+    .password-change-form button
+  ) {
+  background: linear-gradient(100deg, #89e7ac, #38bc75);
+  color: #0d1a12;
+}
+.toppay-admin .security-status {
+  background: #173b25;
+  color: #88dbaa;
+}
+.toppay-admin .trusted-device-list article {
+  background: #121f17;
+  border-color: var(--admin-line);
+}
+.toppay-admin .trusted-device-list article.current {
+  border-color: #497855;
+  box-shadow: inset 3px 0 var(--admin-accent);
+}
+.toppay-admin .trusted-device-box > header > button {
+  border-color: var(--admin-line);
+  background: #172b1e;
+  color: var(--admin-accent);
+}
+.toppay-admin
+  .trusted-device-list
+  :is(article > svg, .device-trust-control > svg) {
+  color: var(--admin-accent);
+}
+.toppay-admin .trusted-device-list .device-trust-control {
+  color: #c3d1c8;
+}
+.toppay-admin .trusted-device-list .device-signout {
+  background: #291b1f;
+  border-color: #553037;
+  color: #ff969c;
+}
+.toppay-admin .device-empty {
+  border-color: var(--admin-line);
+  color: var(--admin-muted);
+}
+.toppay-admin .mfa-setup-card :is(p, code),
+.toppay-admin .password-change-form p {
+  color: var(--admin-muted);
+}
+.toppay-admin .password-change-form h3 {
+  color: #eff6f1;
+}
+.toppay-admin .mfa-setup-card code {
+  background: #172b1e;
+  overflow-wrap: anywhere;
+}
+.toppay-admin .mfa-setup-card > img {
+  background: white;
+}
+.toppay-admin .admin-secondary-button {
+  border-color: var(--admin-line) !important;
+  background: #16251b !important;
+  color: #d3e5da !important;
+}
+.toppay-admin .profile-signout {
+  background: #291b1f;
+  border-color: #553037;
+  color: #ff969c;
+}
+.toppay-admin .save-notice {
+  background: #1b3525;
+  border: 1px solid #497855;
+  color: #e6faed;
+}
+@media (max-width: 900px) {
+  .toppay-admin.admin-shell {
+    display: block;
+  }
+  .toppay-admin .admin-sidebar {
+    width: min(84vw, 275px);
+    z-index: 30;
+  }
+  .toppay-admin .admin-topbar {
+    height: 70px;
+    padding: 0 16px;
+  }
+  .toppay-admin .admin-content {
+    padding: 20px 16px 50px;
+  }
+  .toppay-admin .admin-welcome {
+    padding: 26px;
+    min-height: 155px;
+  }
+  .toppay-admin .admin-welcome h2 {
+    font-size: 25px;
+  }
+  .toppay-admin .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 600px) {
+  .toppay-admin .admin-login-card {
+    padding: 30px 24px;
+    border-radius: 22px;
+  }
+  .toppay-admin .login-heading {
+    margin-top: 30px;
+  }
+  .toppay-admin .login-heading h1 {
+    font-size: 27px;
+  }
+  .toppay-admin .admin-content {
+    padding: 18px 12px 40px;
+  }
+  .toppay-admin .admin-title > img {
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+  }
+  .toppay-admin .admin-topbar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  .toppay-admin .admin-topbar h1 {
+    font-size: 18px;
+  }
+  .toppay-admin .admin-topbar small {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+  }
+  .toppay-admin .sync-dot {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+  .toppay-admin .admin-welcome {
+    min-height: 140px;
+    padding: 22px;
+  }
+  .toppay-admin .admin-welcome h2 {
+    font-size: 23px;
+  }
+  .toppay-admin .welcome-icon {
+    display: none;
+  }
+  .toppay-admin .metric-grid {
+    gap: 10px;
+  }
+  .toppay-admin .metric-card {
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 8px;
+    padding: 14px 12px;
+    min-height: 135px;
+  }
+  .toppay-admin .metric-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+  }
+  .toppay-admin .metric-icon svg {
+    width: 17px;
+  }
+  .toppay-admin .metric-card > span {
+    font-size: 13px;
+  }
+  .toppay-admin .metric-card strong {
+    font-size: 24px;
+  }
+  .toppay-admin .metric-card small {
+    grid-column: 1/-1;
+  }
+  .toppay-admin .admin-panel {
+    padding: 18px 14px;
+    border-radius: 14px;
+  }
+  .toppay-admin .admin-records table,
+  .toppay-admin .admin-records tbody {
+    display: block;
+  }
+  .toppay-admin .admin-records thead {
+    display: none;
+  }
+  .toppay-admin .admin-records tr {
+    display: block;
+    margin-bottom: 12px;
+    padding: 8px 12px;
+    border: 1px solid var(--admin-line);
+    border-radius: 12px;
+    background: #0d1711;
+  }
+  .toppay-admin .admin-records td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 0;
+    font-size: 13px;
+    flex-wrap: wrap;
+    overflow-wrap: anywhere;
+  }
+  .toppay-admin .admin-records td::before {
+    content: attr(data-label);
+    color: var(--admin-muted);
+    font-size: 12px;
+  }
+  .toppay-admin .admin-records td:last-child {
+    border: 0;
+  }
+  .toppay-admin .admin-records .row-actions {
+    flex-wrap: wrap;
+  }
+  .toppay-admin .control-head {
+    padding: 14px;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .toppay-admin .security-box {
+    flex-wrap: wrap;
+  }
+  .toppay-admin .trusted-device-box {
+    padding: 14px;
+  }
+  .toppay-admin .asset-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 360px) {
+  .toppay-admin .admin-title > img {
+    display: block;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .toppay-admin .metric-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+.toppay-admin { --admin-accent:#367ed6;--admin-muted:#7b8088;--admin-line:#e6e8eb;--admin-panel:#fff;color:#24262a;color-scheme:light; }
+.toppay-admin.admin-login-page,.toppay-admin.admin-shell { background:#f8f9fa; }
+.toppay-admin .admin-login-card { background:#fff;border-color:#eceef0;color:#24262a;box-shadow:0 20px 65px #1b29400c; }
+.toppay-admin :is(.admin-sidebar,.admin-topbar) {background:#fff;color:#24262a;border-color:#e6e8eb;}
+.toppay-admin .admin-brand {border-color:#e6e8eb;}
+.toppay-admin .admin-brand strong,.toppay-admin .admin-title h1 {color:#24262a;}
+.toppay-admin .admin-brand small,.toppay-admin .admin-topbar small {color:#367ed6;}
+.toppay-admin .admin-brand>button,.toppay-admin .menu-toggle {color:#52565c;background:#f4f5f6;}
+.toppay-admin .admin-sidebar nav button {color:#777d85;}
+.toppay-admin .admin-sidebar nav button:hover {background:#f5f6f8;color:#25272b;}
+.toppay-admin .admin-sidebar nav button.active {background:#edf4ff;color:#347ed8;box-shadow:inset 3px 0 #347ed8;}
+.toppay-admin :is(.admin-login-card label,.text-field,.select-field,.password-change-form label) {color:#646970;}
+.toppay-admin :is(.login-input,.text-field input,.select-field select,.password-change-form input) {background:#f7f8f8;border-color:#eceef0;color:#272a2f;}
+.toppay-admin .login-input input {background:transparent;color:#272a2f;}
+.toppay-admin .login-input svg {color:#969ba1;}
+.toppay-admin .admin-login-card form>button,.toppay-admin .password-change-form button {background:#808080;color:white;box-shadow:none;}
+.toppay-admin .admin-login-card form>button:hover {background:#676767;}
+.toppay-admin :is(.admin-panel,.metric-card) {background:#fff;border-color:#e6e8eb;box-shadow:0 8px 30px #1c2e4806;}
+.toppay-admin .admin-welcome {background:linear-gradient(120deg,#f2f6fc,#f8f9fb);border-color:#e0e6ef;}
+.toppay-admin .admin-welcome h2,.toppay-admin .metric-card strong,.toppay-admin .panel-heading h2 {color:#262a31;}
+.toppay-admin .admin-welcome p,.toppay-admin .metric-card>span {color:#7b8088;}
+.toppay-admin .metric-icon,.toppay-admin .welcome-icon {background:#eaf2fe;color:#3d80d8;}
+.toppay-admin .sync-dot {background:#edf3fc;color:#3d80d8;border-color:#dce8f7;}
+.toppay-admin .sync-dot i {background:#3d80d8;box-shadow:none;}
+.toppay-admin :is(.admin-records th,.control-head,.profile-box,.trusted-device-box,.password-change-form,.trusted-device-list article,.asset-grid article,.admin-records tr) {background:#fafbfc;border-color:#e6e8eb;}
+.toppay-admin .admin-records td,.toppay-admin :is(.profile-box,.trusted-device-box,.trusted-device-list) strong,.toppay-admin .password-change-form h3 {color:#30353c;}
+.toppay-admin .admin-records em {background:#eaf3ff;color:#3274c8;}
+.toppay-admin :is(.upload-box,.media-upload) {background:#fafbfc;border-color:#d5dce5;color:#555d67;}
+.toppay-admin :is(.admin-records button,.trusted-device-box>header>button) {background:#fff;border-color:#dde2e8;color:#367ed6;}
+.toppay-admin .trusted-device-list article.current {border-color:#b9cfee;}
+.toppay-admin [data-slot='switch'][data-checked] {background:#367ed6;}
+.toppay-admin [data-slot='switch'][data-unchecked] {background:#c6cbd2;}
+.toppay-admin .save-notice {background:#eff6ff;border-color:#bad4f3;color:#285d9f;}
+.toppay-admin :is(.profile-signout,.device-signout) {background:#fff4f4;border-color:#f0d7d7;color:#b84646;}
+.toppay-admin .danger-action,.toppay-admin .asset-grid article button,.toppay-admin .admin-signout {color:#c55353!important;}
+.toppay-admin [data-slot='switch'] {width:40px;height:23px;padding:3px;border:0;border-radius:30px;display:inline-flex;align-items:center;flex-shrink:0;cursor:pointer;}
+.toppay-admin [data-slot='switch-thumb'] {width:17px;height:17px;border-radius:50%;transition:transform .15s;}
+.toppay-admin [data-checked] [data-slot='switch-thumb'] {transform:translateX(17px);}
+.toppay-admin .admin-login-logo {width:70px;height:70px;}
+.toppay-admin button:disabled {opacity:.5;cursor:not-allowed;}
+.toppay-admin .admin-error {color:#b93e47;}
+
+.toppay-admin .admin-storage-notice{padding:14px 18px;border:1px solid #d6e3f5;background:#f0f5fc;color:#37557c;border-radius:12px;margin-bottom:20px;font-size:14px;line-height:1.6;}
