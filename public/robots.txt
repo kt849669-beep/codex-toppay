@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://toppaay.com/sitemap.xml
