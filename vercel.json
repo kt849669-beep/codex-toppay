@@ -1,10 +1,46 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/home-", "destination": "/home-page" },
-    { "source": "/api/admin-app/:path*", "destination": "/api/admin-app?route=:path*" }
+    {
+      "source": "/home-",
+      "destination": "/home-page"
+    },
+    {
+      "source": "/api/admin-app/:path*",
+      "destination": "/api/admin-app?route=:path*"
+    }
   ],
   "headers": [
-    { "source": "/admin-app", "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }, { "key": "X-Frame-Options", "value": "DENY" }] }
+    {
+      "source": "/admin-app",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    },
+    {
+      "source": "/admin-app.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/api/:path*",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    }
   ]
 }
