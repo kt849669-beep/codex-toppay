@@ -2,6 +2,14 @@
   "cleanUrls": true,
   "rewrites": [
     {
+      "source": "/admin",
+      "destination": "/admin-app.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/admin-app.html"
+    },
+    {
       "source": "/home-",
       "destination": "/home-page"
     },

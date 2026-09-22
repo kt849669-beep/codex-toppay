@@ -54,103 +54,55 @@
   </head>
   <body>
     <div class="app-container">
-      <!-- Header -->
-      <header class="top-header">
-        <div class="logo-text">TopPay</div>
-      </header>
-
-      <!-- Slider -->
-      <div class="slider-container" id="sliderContainer">
-        <!-- Slides dynamically injected -->
-        <div class="slider-dots" id="sliderDots"></div>
-      </div>
-
-      <div class="content-area">
-        <!-- Ratios -->
-        <div class="ratios-card">
-          <div class="ratio-left">
-            <div class="ratio-label">USDT Ratio</div>
-            <div class="ratio-value">1 USDT ≈ 109.65 INR</div>
-            <div class="ratio-sub">Bonus ratio: 2%</div>
-          </div>
-          <div class="ratio-right">
-            <div class="ratio-label">INR Bonus Ratio</div>
-            <div class="ratio-percent">4%</div>
-          </div>
+      <section id="homeSection" class="page-panel" aria-label="Home">
+        <header class="top-header"><h1 class="logo-text">TopPay</h1></header>
+        <div class="slider-container" id="sliderContainer"><div class="slider-dots" id="sliderDots"></div></div>
+        <div class="content-area" id="mainContentArea">
+          <div class="ratios-card"><div class="ratio-left"><div class="ratio-label">USDT Ratio</div><div class="ratio-value">1 USDT ≈ 109.65 INR</div><div class="ratio-sub">Bonus ratio: 2%</div></div><div class="ratio-right"><div class="ratio-label">INR Bonus Ratio</div><div class="ratio-percent">4%</div></div></div>
+          <div class="top-up-btn-container"><button type="button" class="top-up-btn" aria-disabled="true">Top up</button></div>
+          <div class="stats-grid"><div class="stat-item"><div class="stat-info"><span class="stat-label">Balance</span><span class="stat-value">0.00</span></div><i data-lucide="chevron-right" class="chevron" aria-hidden="true"></i></div>
+<div class="stat-item"><div class="stat-info"><span class="stat-label">Today Received</span><span class="stat-value">0.00</span></div><i data-lucide="chevron-right" class="chevron" aria-hidden="true"></i></div>
+<div class="stat-item"><div class="stat-info"><span class="stat-label">Top up Bonus</span><span class="stat-value">0.00</span></div><i data-lucide="chevron-right" class="chevron" aria-hidden="true"></i></div>
+<div class="stat-item"><div class="stat-info"><span class="stat-label">Team Commission</span><span class="stat-value">0.00</span></div><i data-lucide="chevron-right" class="chevron" aria-hidden="true"></i></div></div>
+          <section class="tutorial-section"><h2 class="tutorial-title">Tutorial</h2><article class="tutorial-row"><div class="tutorial-details"><h3>List of scammers released(Please block if you encounter this)</h3><button type="button" class="tutorial-action" aria-disabled="true">Click<i data-lucide="chevron-right" aria-hidden="true"></i></button></div><div class="tutorial-art tutorial-art--attention" aria-hidden="true"><img src="/toppay-tutorial-reference.jpeg" alt="" loading="lazy"></div></article>
+<article class="tutorial-row"><div class="tutorial-details"><h3>View today’s Toppay promotions</h3><button type="button" class="tutorial-action" aria-disabled="true">Click<i data-lucide="chevron-right" aria-hidden="true"></i></button></div><div class="tutorial-art tutorial-art--telegram" aria-hidden="true"><img src="/toppay-tutorial-reference.jpeg" alt="" loading="lazy"></div></article>
+<article class="tutorial-row"><div class="tutorial-details"><h3>TopPay Web Page Address</h3><button type="button" class="tutorial-action" aria-disabled="true">Click<i data-lucide="chevron-right" aria-hidden="true"></i></button></div><div class="tutorial-art tutorial-art--login" aria-hidden="true"><img src="/toppay-tutorial-reference.jpeg" alt="" loading="lazy"></div></article>
+<article class="tutorial-row"><div class="tutorial-details"><h3>How to link to FreeCharge?</h3><button type="button" class="tutorial-action" aria-disabled="true">Watch video<i data-lucide="chevron-right" aria-hidden="true"></i></button></div><div class="tutorial-art tutorial-art--freecharge" aria-hidden="true"><img src="/toppay-tutorial-reference.jpeg" alt="" loading="lazy"></div></article>
+<article class="tutorial-row"><div class="tutorial-details"><h3>How to link to PhonePe and other?</h3><button type="button" class="tutorial-action" aria-disabled="true">Watch video<i data-lucide="chevron-right" aria-hidden="true"></i></button></div><div class="tutorial-art tutorial-art--phonepe" aria-hidden="true"><img src="/toppay-tutorial-reference.jpeg" alt="" loading="lazy"></div></article></section>
         </div>
-
-        <!-- Top up Button -->
-        <div class="top-up-btn-container">
-          <div class="first-badge">🪙 First</div>
-          <button class="top-up-btn">Top up</button>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-          <div class="stat-item">
-            <div class="stat-info">
-              <span class="stat-label">Balance</span>
-              <span class="stat-value">0.00</span>
-            </div>
-            <i data-lucide="chevron-right" class="chevron"></i>
-          </div>
-          <div class="stat-item">
-            <div class="stat-info">
-              <span class="stat-label">Today Received</span>
-              <span class="stat-value">0.00</span>
-            </div>
-            <i data-lucide="chevron-right" class="chevron"></i>
-          </div>
-          <div class="stat-item">
-            <div class="stat-info">
-              <span class="stat-label">Top up Bonus</span>
-              <span class="stat-value">0.00</span>
-            </div>
-            <i data-lucide="chevron-right" class="chevron"></i>
-          </div>
-          <div class="stat-item">
-            <div class="stat-info">
-              <span class="stat-label">Team Commission</span>
-              <span class="stat-value">0.00</span>
-            </div>
-            <i data-lucide="chevron-right" class="chevron"></i>
-          </div>
-        </div>
-
-        <!-- Tutorial -->
-        <div class="tutorial-section">
-          <div class="tutorial-title">Tutorial</div>
-          <div class="tutorial-link">List of scammers released(Please block if you encounter this)</div>
-        </div>
-      </div>
-
-      <!-- Floating Button -->
-      <div class="floating-support">
-        <div class="message-icon"></div>
-      </div>
-
-      <!-- Bottom Nav -->
+      </section>
+      <section id="profileSection" class="page-panel profile-section" aria-label="Me" hidden>
+        <button class="edit-profile" type="button" aria-disabled="true"><i data-lucide="user-round" aria-hidden="true"></i><span>Edit profile</span><i data-lucide="chevron-down" aria-hidden="true"></i></button>
+        <div class="profile-id">ID: <span id="profileUserId">—</span><i data-lucide="copy" aria-hidden="true"></i></div>
+        <div class="quota-title"><i data-lucide="coins" aria-hidden="true"></i>Quota</div>
+        <div class="profile-balance-row"><div class="profile-balance">0.00 <span>INR</span></div><button type="button" class="profile-topup" aria-disabled="true">Top up</button></div>
+        <p class="profile-reward">Reward ratio 2%</p>
+        <div class="profile-banner"><img src="/assets/toppay-profile.jpeg" alt="New game section on the platform"></div>
+        <div class="profile-menu"><button class="profile-row" type="button" aria-disabled="true"><i data-lucide="badge-indian-rupee" aria-hidden="true"></i><span>Recharge History</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button>
+<button class="profile-row" type="button" aria-disabled="true"><i data-lucide="file-clock" aria-hidden="true"></i><span>Token History</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button>
+<button class="profile-row" type="button" aria-disabled="true"><i data-lucide="credit-card" aria-hidden="true"></i><span>Bank Card</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button>
+<button class="profile-row" type="button" aria-disabled="true"><i data-lucide="globe" aria-hidden="true"></i><span>Languages</span><span class="profile-language">English</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button>
+<button class="profile-row" type="button" aria-disabled="true"><span class="authenticator-symbol" aria-hidden="true"><b></b><b></b><b></b></span><span>Google Authentication</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button><button class="profile-row profile-logout" id="logoutBtn" type="button"><i data-lucide="log-out" aria-hidden="true"></i><span>Logout</span><i data-lucide="chevron-right" class="profile-chevron" aria-hidden="true"></i></button></div>
+      </section>
+      <section id="depositSection" class="page-panel deposit-section" aria-label="Deposit" hidden>
+        <div class="deposit-currencies"><button type="button" class="selected" aria-disabled="true">INR</button><button type="button" aria-disabled="true">USDT</button></div>
+        <div class="deposit-body"><div class="deposit-types"><button type="button" class="selected" aria-disabled="true">Task</button><button type="button" aria-disabled="true">VIP</button></div>
+        <div class="commission-note"><span aria-hidden="true">🪙</span> Complete a task to earn Commission and Bonus</div>
+        <button class="quota-guide" type="button" aria-disabled="true"><i data-lucide="circle-play" aria-hidden="true"></i>How Buy Quota?</button>
+        <div class="order-filters"><button type="button" class="sort-order" aria-disabled="true">From high to low <i data-lucide="chevron-down" aria-hidden="true"></i></button><input placeholder="Min" aria-label="Minimum amount" readonly><span>–</span><input placeholder="Max" aria-label="Maximum amount" readonly><button type="button" class="refresh-orders" aria-disabled="true">Refresh</button></div>
+        <div class="deposit-orders" aria-label="Deposit screen examples"><article class="deposit-order"><div><h3>24500 INR</h3><div class="order-detail"><div><span>Income</span><strong>980 <small>(4%)</small></strong></div><div><span>Quota</span><strong class="order-quota">+25480</strong></div></div></div><button type="button" class="buy-button" aria-disabled="true">Buy</button></article>
+<article class="deposit-order"><div><h3>19500 INR</h3><div class="order-detail"><div><span>Income</span><strong>780 <small>(4%)</small></strong></div><div><span>Quota</span><strong class="order-quota">+20280</strong></div></div></div><button type="button" class="buy-button" aria-disabled="true">Buy</button></article>
+<article class="deposit-order"><div><h3>16000 INR</h3><div class="order-detail"><div><span>Income</span><strong>640 <small>(4%)</small></strong></div><div><span>Quota</span><strong class="order-quota">+16640</strong></div></div></div><button type="button" class="buy-button" aria-disabled="true">Buy</button></article>
+<article class="deposit-order"><div><h3>16000 INR</h3><div class="order-detail"><div><span>Income</span><strong>640 <small>(4%)</small></strong></div><div><span>Quota</span><strong class="order-quota">+16640</strong></div></div></div><button type="button" class="buy-button" aria-disabled="true">Buy</button></article>
+<article class="deposit-order"><div><h3>15750 INR</h3><div class="order-detail"><div><span>Income</span><strong>630 <small>(4%)</small></strong></div><div><span>Quota</span><strong class="order-quota">+16380</strong></div></div></div><button type="button" class="buy-button" aria-disabled="true">Buy</button></article></div></div>
+      </section>
+      <button type="button" class="floating-support" id="floatingSupport" aria-label="Support" aria-disabled="true"><span class="message-icon" aria-hidden="true"></span></button>
       <nav class="bottom-nav" aria-label="TopPay footer navigation">
-        <a href="#" class="nav-item active">
-          <i data-lucide="home"></i>
-          <span>Home</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i data-lucide="arrow-left-right"></i>
-          <span>Deposit</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i data-lucide="briefcase"></i>
-          <span>UPI</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i data-lucide="users"></i>
-          <span>Team</span>
-        </a>
-        <a href="#" class="nav-item">
-          <i data-lucide="user"></i>
-          <span>Me</span>
-        </a>
+        <a href="#home" class="nav-item active" data-screen="home" aria-current="page"><svg viewBox="0 0 32 34" aria-hidden="true"><path d="M3 11 16 2l13 9v18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z" fill="currentColor"/><rect x="14" y="19" width="4" height="8" rx="2" fill="white"/></svg><span>Home</span></a>
+<a href="#deposit" class="nav-item" data-screen="deposit"><svg viewBox="0 0 32 34" aria-hidden="true"><circle cx="16" cy="16" r="15" fill="currentColor"/><path d="M8 13h16M8 13l5-5M24 20H8m16 0-5 5" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg><span>Deposit</span></a>
+<a href="#upi" class="nav-item" data-screen="upi"><svg viewBox="0 0 32 34" aria-hidden="true"><path d="M11 7V3h10v4" fill="none" stroke="currentColor" stroke-width="3"/><rect x="1" y="8" width="30" height="9" rx="2" fill="currentColor"/><path d="M1 20h12v3h6v-3h12v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2Z" fill="currentColor"/><rect x="14" y="19" width="4" height="3" fill="currentColor"/></svg><span>UPI</span></a>
+<a href="#team" class="nav-item" data-screen="team"><svg viewBox="0 0 32 34" aria-hidden="true"><rect x="2" y="4" width="27" height="11" rx="3" fill="currentColor"/><rect x="2" y="18" width="10" height="12" rx="3" fill="currentColor"/><rect x="15" y="18" width="14" height="12" rx="3" fill="currentColor"/></svg><span>Team</span></a>
+<a href="#me" class="nav-item" data-screen="me"><svg viewBox="0 0 32 34" aria-hidden="true"><path d="M29 4H16C7 4 2 10 3 19c1 9 6 13 13 13s13-6 13-14Z" fill="currentColor"/><rect x="11" y="12" width="3" height="5" rx="1.5" fill="white"/><rect x="18" y="12" width="3" height="5" rx="1.5" fill="white"/></svg><span>Me</span></a>
       </nav>
     </div>
 
