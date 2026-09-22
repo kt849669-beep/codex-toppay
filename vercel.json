@@ -3,11 +3,11 @@
   "rewrites": [
     {
       "source": "/admin",
-      "destination": "/admin-app.html"
+      "destination": "/admin"
     },
     {
       "source": "/admin/:path*",
-      "destination": "/admin-app.html"
+      "destination": "/admin"
     },
     {
       "source": "/home-",
@@ -19,6 +19,19 @@
     }
   ],
   "headers": [
+    {
+      "source": "/admin",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        }
+      ]
+    },
     {
       "source": "/admin-app",
       "headers": [
