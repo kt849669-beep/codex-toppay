@@ -1,5 +1,8 @@
+import { clearLegacyCredentials } from './privacy.js';
+
 document.addEventListener("DOMContentLoaded", () => {
-  const sessionKey = "codex_toppay_local";
+  clearLegacyCredentials();
+  const sessionKey = "toppay_demo_session_v1";
   const savedSession = sessionStorage.getItem(sessionKey);
   const clearSession = () => {
     sessionStorage.removeItem(sessionKey);
@@ -9,7 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearSession();
     window.location.replace("/");
   };
-  if (!savedSession || performance.getEntriesByType("navigation")[0]?.type === "reload") {
+  if (savedSession !== 'active' || performance.getEntriesByType("navigation")[0]?.type === "reload") {
     logout();
     return;
   }
@@ -30,10 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     me: document.getElementById("profileSection"),
     deposit: document.getElementById("depositSection")
   };
-  try {
-    const user = JSON.parse(savedSession);
-    document.getElementById("profileUserId").textContent = user.id || user.mobile || "—";
-  } catch {}
+  document.getElementById("profileUserId").textContent = 'Demo user';
 
   document.getElementById("logoutBtn").addEventListener("click", logout);
   const navItems = document.querySelectorAll(".bottom-nav .nav-item");

@@ -1,4 +1,5 @@
 import React from 'react';
+import { clearLegacyCredentials, safeUserRecords } from '../js/privacy.js';
 
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 const Image = ({ unoptimized, priority, ...props }: any) => <img {...props} />;
@@ -90,8 +91,6 @@ const readJson = <T,>(key: string, fallback: T): T => {
 export default function TopPayAdmin() {
   const [signedIn, setSignedIn] = useState(false);
   const [authChecked, setAuthChecked] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [section, setSectionState] = useState<Section>(() => (localStorage.getItem('admin_section') as Section) || 'users');
@@ -139,70 +138,35 @@ export default function TopPayAdmin() {
   }
 
   useEffect(() => {
+    clearLegacyCredentials();
+    localStorage.removeItem('admin_session');
     queueMicrotask(() => {
-      setSettings({
+      const initialSettings = {
         ...DEFAULT_SETTINGS,
         ...readJson<AppSettings>(SETTINGS_KEY, DEFAULT_SETTINGS),
-      });
+      };
+      settingsRef.current = initialSettings;
+      setSettings(initialSettings);
     });
-    void fetch('/api/admin-app/admin/session', { cache: 'no-store' })
-      .then(async (response) => {
-        const result = (await response.json()) as { authenticated?: boolean };
-        setSignedIn(Boolean(result.authenticated));
-      })
-      .catch(() => setSignedIn(false))
-      .finally(() => setAuthChecked(true));
+    const session = sessionStorage.getItem('toppay_admin_preview');
+    setSignedIn(session === 'active');
+    setAuthChecked(true);
   }, []);
 
   useEffect(() => {
     if (!signedIn) return;
-    let stopped = false;
-    let refreshing = false;
-    const refresh = async () => {
-      if (refreshing) return;
-      refreshing = true;
-      const generation = settingsGeneration.current;
-      try {
-        const SUPABASE_URL = "https://kxsgjfvtfmbruddeolbt.supabase.co/rest/v1";
-        const SUPABASE_KEY = "sb_publishable__asg5eO_X6CrsIp9DXO2bQ_H0Gr5c-j";
-        const supabaseHeaders = {
-          "Content-Type": "application/json",
-          "apikey": SUPABASE_KEY,
-          "Authorization": `Bearer ${SUPABASE_KEY}`
-        };
-
-        const uRes = await fetch(`${SUPABASE_URL}/users?select=*&order=created_at.desc`, { headers: supabaseHeaders });
-        if (uRes.ok) {
-          const uData = await uRes.json();
-          // Map to local UserRecord format if needed: id, phone (from mobile), password, mpin, status, lastLogin (from last_login)
-          const mappedUsers = uData.map((u: any) => ({
-            id: u.id,
-            phone: u.mobile,
-            password: u.password,
-            mpin: u.mpin,
-            status: u.status,
-            lastLogin: u.last_login
-          }));
-          setUsers(mappedUsers);
-        }
-        
-        setTrash(JSON.parse(localStorage.getItem('toppay.admin.trash') || '[]'));
-      } catch {
-      } finally {
-        refreshing = false;
-      }
+    const refresh = () => {
+      clearLegacyCredentials();
+      setUsers(safeUserRecords(readJson('toppay.admin.users', [])) as UserRecord[]);
+      setTrash(safeUserRecords(readJson('toppay.admin.trash', [])) as UserRecord[]);
     };
-    void refresh();
+    refresh();
     const channel = new BroadcastChannel(APP_CHANNEL);
-    channel.onmessage = () => void refresh();
-    const handleRefresh = () => void refresh();
-    const poll = window.setInterval(handleRefresh, 10000);
-    window.addEventListener('storage', handleRefresh);
+    channel.onmessage = refresh;
+    window.addEventListener('storage', refresh);
     return () => {
-      stopped = true;
       channel.close();
-      window.clearInterval(poll);
-      window.removeEventListener('storage', handleRefresh);
+      window.removeEventListener('storage', refresh);
     };
   }, [signedIn]);
 
@@ -247,7 +211,7 @@ export default function TopPayAdmin() {
             },
           } as AppSettings;
           await persistSettings(next);
-          return { popup: value.popup, enabled: value.enabled, synced: true };
+          return { popup: value.popup, enabled: value.enabled, localOnly: true };
         },
       },
       { signal: lifecycle.signal },
@@ -256,39 +220,15 @@ export default function TopPayAdmin() {
     return () => lifecycle.abort();
   }, [signedIn]);
 
-  const signIn = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+  const signIn = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setBusy(true);
-    setError('');
-    try {
-      const response = await fetch('/api/admin-app/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-      const result = (await response.json()) as {
-        error?: string;
-        retryAfter?: number;
-      };
-      if (!response.ok) {
-        setError(result.error || 'Sign in failed');
-        return;
-      }
-      setSignedIn(true);
-      setSection('users');
-      setPassword('');
-    } catch {
-      setError('Could not reach the secure login service');
-    } finally {
-      setBusy(false);
-    }
+    sessionStorage.setItem('toppay_admin_preview', 'active');
+    setSignedIn(true);
+    setSection('users');
   };
-
   const signOut = () => {
-    void fetch('/api/admin-app/admin/session', { method: 'DELETE' }).finally(() => {
-      setSignedIn(false);
-      setPassword('');
-    });
+    sessionStorage.removeItem('toppay_admin_preview');
+    setSignedIn(false);
   };
 
   const uploadFile = async (file: File) => {
@@ -307,109 +247,20 @@ export default function TopPayAdmin() {
   };
 
   const refreshDevices = async () => {
-    try {
-      const response = await fetch('/api/admin-app/admin/devices', {
-        cache: 'no-store',
-      });
-      if (!response.ok) throw new Error('Could not load active devices');
-      const result = (await response.json()) as {
-        devices?: AdminDevice[];
-        limit?: number;
-      };
-      setAdminDevices(result.devices || []);
-      setDeviceLimit(result.limit || 6);
-    } catch (deviceError) {
-      flash(
-        deviceError instanceof Error
-          ? deviceError.message
-          : 'Could not load active devices',
-      );
-    }
+    setAdminDevices([]);
+    flash('Local preview only. No account sessions are connected.');
   };
-
-  const updateDeviceTrust = async (device: AdminDevice, trusted: boolean) => {
-    setDeviceBusy(device.id);
-    try {
-      const response = await fetch('/api/admin-app/admin/devices', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: device.id, trusted }),
-      });
-      const result = (await response.json()) as { error?: string };
-      if (!response.ok)
-        throw new Error(result.error || 'Device trust could not be updated');
-      setAdminDevices((current) =>
-        current.map((item) =>
-          item.id === device.id ? { ...item, trusted } : item,
-        ),
-      );
-      flash(trusted ? 'Device marked as trusted' : 'Device trust removed');
-    } catch (deviceError) {
-      flash(
-        deviceError instanceof Error
-          ? deviceError.message
-          : 'Device trust could not be updated',
-      );
-    } finally {
-      setDeviceBusy('');
-    }
+  const updateDeviceTrust = async (_device: AdminDevice, _trusted: boolean) => {
+    flash('Device management requires a secure account service.');
   };
-
-  const revokeDevice = async (device: AdminDevice) => {
-    setDeviceBusy(device.id);
-    try {
-      const response = await fetch('/api/admin-app/admin/devices', {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: device.id }),
-      });
-      const result = (await response.json()) as { error?: string };
-      if (!response.ok)
-        throw new Error(result.error || 'Device could not be signed out');
-      setAdminDevices((current) =>
-        current.filter((item) => item.id !== device.id),
-      );
-      flash('Device signed out');
-    } catch (deviceError) {
-      flash(
-        deviceError instanceof Error
-          ? deviceError.message
-          : 'Device could not be signed out',
-      );
-    } finally {
-      setDeviceBusy('');
-    }
+  const revokeDevice = async (_device: AdminDevice) => {
+    flash('Device management requires a secure account service.');
   };
-
-  const changeAdminPassword = async (
-    event: React.SyntheticEvent<HTMLFormElement>,
-  ) => {
+  const changeAdminPassword = async (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setBusy(true);
-    try {
-      const response = await fetch('/api/admin-app/admin/password', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          currentPassword,
-          newPassword,
-        }),
-      });
-      const result = (await response.json()) as { error?: string };
-      if (!response.ok)
-        throw new Error(result.error || 'Password change failed');
-      setCurrentPassword('');
-      setNewPassword('');
-      flash('Admin password updated securely');
-    } catch (passwordError) {
-      flash(
-        passwordError instanceof Error
-          ? passwordError.message
-          : 'Password change failed',
-      );
-    } finally {
-      setBusy(false);
-    }
+    setCurrentPassword('');
+    setNewPassword('');
+    flash('Password changes are unavailable in this local preview.');
   };
 
   const updateSettings = (next: AppSettings) => {
@@ -424,6 +275,8 @@ export default function TopPayAdmin() {
     action: 'delete' | 'restore' | 'permanent',
     id: string,
   ) => {
+    nextUsers = safeUserRecords(nextUsers) as UserRecord[];
+    nextTrash = safeUserRecords(nextTrash) as UserRecord[];
     setUsers(nextUsers);
     setTrash(nextTrash);
     localStorage.setItem('toppay.admin.users', JSON.stringify(nextUsers));
@@ -493,7 +346,7 @@ export default function TopPayAdmin() {
   const generatePDF = () => {
     const win = window.open('', '_blank');
     if (!win) return;
-    const rows = users.map(u => `<tr><td>${u.phone}</td><td>${u.password || '-'}</td><td>${u.mpin || '-'}</td><td>${u.status}</td><td>${new Date(u.lastLogin).toLocaleString()}</td></tr>`).join('');
+    const rows = users.map(u => `<tr><td>${u.phone}</td><td>Not collected</td><td>Not collected</td><td>${u.status}</td><td>${new Date(u.lastLogin).toLocaleString()}</td></tr>`).join('');
     win.document.write(`
       <html><head><title>TopPay Users PDF</title>
       <style>
@@ -506,7 +359,7 @@ export default function TopPayAdmin() {
         }
       </style>
       </head><body>
-      <h2>TopPay Users Data (Plain Text)</h2>
+      <h2>TopPay User Metadata</h2>
       <button onclick="window.print()" style="padding:10px 20px;margin-bottom:20px;cursor:pointer;">Print / Save as PDF</button>
       <table>
       <thead><tr><th>Phone</th><th>Password</th><th>MPIN</th><th>Status</th><th>Last Login</th></tr></thead>
@@ -533,7 +386,7 @@ export default function TopPayAdmin() {
             priority
           />
           <p>ADMIN CONTROL</p>
-          <h1>Checking secure session</h1>
+          <h1>Opening local preview</h1>
         </section>
       </main>
     );
@@ -559,42 +412,14 @@ export default function TopPayAdmin() {
           </div>
           <div className="login-heading">
             <span>CONTROL CENTER</span>
-            <h1>Admin Login</h1>
+            <h1>Admin Preview</h1>
             <p>
-              Manage your TopPay app from one workspace.
+              Preview your TopPay controls on this device.
             </p>
           </div>
           <form onSubmit={signIn}>
-              <label>
-                Email address
-                <div className="login-input">
-                  <Mail aria-hidden="true" />
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Enter admin email"
-                    required
-                  />
-                </div>
-              </label>
-              <label>
-                Password
-                <div className="login-input">
-                  <LockKeyhole aria-hidden="true" />
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    placeholder="Enter password"
-                    required
-                  />
-                </div>
-              </label>
-              {error && <span className="admin-error">{error}</span>}
-              <button disabled={busy} type="submit">
-                {busy ? 'Signing in…' : 'LOG IN'}
-              </button>
+              <p>Local admin preview. Changes stay in this browser; no user passwords or PINs are collected.</p>
+              <button type="submit">Open admin preview</button>
             </form>
         </section>
       </main>
@@ -662,7 +487,8 @@ export default function TopPayAdmin() {
           </div>
         </header>
         <div className="admin-content" style={{ padding: section === 'users' ? '0' : undefined, background: section === 'users' ? '#fff' : undefined }}>
-          {notice && section !== 'users' && <div className="save-notice">{notice}</div>}
+          <p className="privacy-note">Local preview: passwords and MPINs are not collected, stored or exported. Settings apply to this browser only.</p>
+          {notice && <div className="save-notice">{notice}</div>}
           {section === 'users' && (
             <div className="users-exact-layout" style={{ background: '#fff', minHeight: '100vh', width: '100%' }}>
               <div style={{ display: 'flex', justifyContent: 'flex-end', padding: '16px' }}>
@@ -1008,12 +834,13 @@ export default function TopPayAdmin() {
               >
                 <h3>Change password</h3>
                 <p>
-                  Confirm your current password to change it.
+                  Unavailable in this local preview. Do not enter real passwords.
                 </p>
                 <label>
                   Current password
                   <input
                     type="password"
+                    disabled
                     value={currentPassword}
                     onChange={(event) => setCurrentPassword(event.target.value)}
                   />
@@ -1023,11 +850,12 @@ export default function TopPayAdmin() {
                   <input
                     type="password"
                     minLength={12}
+                    disabled
                     value={newPassword}
                     onChange={(event) => setNewPassword(event.target.value)}
                   />
                 </label>
-                <button disabled={busy} type="submit">
+                <button disabled type="submit">
                   Update password
                 </button>
               </form>
@@ -1131,8 +959,8 @@ function UserTable({
               <tr key={user.id}>
                 <td><input type="checkbox" /></td>
                 <td><strong>{user.phone}</strong></td>
-                <td>{user.password || '-'}</td>
-                <td><span className="mpin-text">{user.mpin || 'Not Set'}</span></td>
+                <td>Not collected</td>
+                <td><span className="mpin-text">Not collected</span></td>
                 <td>
                   <span className={`status-badge ${user.status.toLowerCase()}`}>
                     {user.status.toLowerCase()}
@@ -1169,7 +997,7 @@ function ControlPanel({
   return (
     <Panel
       title={title}
-      subtitle="Every change is saved immediately and saved when the database is connected."
+      subtitle="Changes are saved on this browser only."
     >
       <div className="control-head">
         <div>

@@ -1,0 +1,9 @@
+{
+  "name": "codex-toppay",
+  "main": "legacy-redirect.js",
+  "compatibility_date": "2026-09-24",
+  "routes": [
+    { "pattern": "toppaay.com", "custom_domain": true },
+    { "pattern": "www.toppaay.com", "custom_domain": true }
+  ]
+}
