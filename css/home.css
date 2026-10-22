@@ -129,3 +129,5 @@
   .commission-note { margin-inline: 6px; font-size: 9px; }
   .profile-row { font-size: 13px; gap: 10px; }
 }
+
+.demo-banner { padding: 10px 16px; background: #f2f6ff; color: #344566; text-align: center; font-size: 13px; line-height: 1.5; }

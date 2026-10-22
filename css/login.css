@@ -8,6 +8,10 @@
 }
 
 .header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   text-align: center;
   padding: 10px 0;
   font-size: 20px;
@@ -15,7 +19,15 @@
   color: #202020;
   text-transform: uppercase;
   border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 145px;
+  margin-bottom: 16px;
+}
+
+.login-brand-logo {
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
 #loginForm {
@@ -74,7 +86,7 @@
 }
 
 @media (max-height: 720px) {
-  .header { margin-bottom: 90px; }
+  .header { margin-bottom: 16px; }
   .login-btn-container { margin-top: 150px; }
 }
 
@@ -109,3 +121,5 @@
 @media (max-width: 560px) {
   .seo-card-grid { grid-template-columns: 1fr; }
 }
+
+.login-demo-note { color: #536175; background: #f2f6ff; border-radius: 10px; padding: 12px; font-size: 13px; line-height: 1.5; margin: 0 0 30px; text-align: center; }

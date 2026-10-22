@@ -2,4 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://toppaay.com/sitemap.xml
+# Account and admin pages also return noindex in HTML and response headers.
+
+Sitemap: https://top-payy.online/sitemap.xml
