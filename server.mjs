@@ -1,62 +1,55 @@
-import { createServer } from 'node:http';
-import { readFile, stat } from 'node:fs/promises';
-import { resolve, extname, sep } from 'node:path';
+import http from 'node:http';
+import fs from 'node:fs';
+import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const directory = fileURLToPath(new URL('./dist/', import.meta.url));
-const canonicalHost = 'top-payy.online';
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json', '.xml': 'application/xml', '.txt': 'text/plain; charset=utf-8', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.woff2': 'font/woff2' };
-const aliases = { '/': 'index.html', '/home': 'home.html', '/home/': 'home.html', '/admin': 'admin.html', '/admin/': 'admin.html', '/admin-app': 'admin-app.html', '/admin-app/': 'admin-app.html' };
-
-export const server = createServer(async (req, res) => {
-  res.setHeader('X-Content-Type-Options', 'nosniff');
-  res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
-  res.setHeader('X-Frame-Options', 'DENY');
-  try {
-    const url = new URL(req.url, 'http://localhost');
-    const pathname = decodeURIComponent(url.pathname);
-    const host = String(req.headers.host || '').split(':')[0].toLowerCase();
-    if (host === `www.${canonicalHost}` || ['toppaay.com', 'www.toppaay.com'].includes(host)) {
-      res.writeHead(301, { Location: `https://${canonicalHost}${url.pathname}${url.search}` });
-      return res.end();
-    }
-    if (!['GET', 'HEAD'].includes(req.method)) {
-      res.writeHead(405, { Allow: 'GET, HEAD', 'Cache-Control': 'no-store' });
-      return res.end('This demo does not accept form submissions.');
-    }
-    if (['/index.html', '/home-page', '/home-page/', '/home-page.html', '/home-', '/clean-index.html'].includes(pathname)) {
-      res.writeHead(301, { Location: `/${url.search}` });
-      return res.end();
-    }
-    if (pathname === '/healthz') {
-      res.writeHead(200, { 'Content-Type': 'text/plain', 'Cache-Control': 'no-store' });
-      return res.end(req.method === 'HEAD' ? '' : 'ok');
-    }
-    if (pathname.startsWith('/api/')) {
-      res.writeHead(410, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow' });
-      return res.end(req.method === 'HEAD' ? '' : JSON.stringify({ error: 'Account API disabled. No credentials are collected.' }));
-    }
-    if (pathname.includes('\\') || pathname.includes('\0') || pathname.split('/').some(part => part.startsWith('.'))) {
-      res.writeHead(404); return res.end('Not found');
-    }
-    const relativePath = aliases[pathname] || (pathname.startsWith('/admin/') ? 'admin.html' : pathname.slice(1));
-    const file = resolve(directory, relativePath);
-    if (!file.startsWith(resolve(directory) + sep) || !(await stat(file)).isFile()) {
-      res.writeHead(404); return res.end('Not found');
-    }
-    const extension = extname(file);
-    res.setHeader('Content-Type', types[extension] || 'application/octet-stream');
-    res.setHeader('Cache-Control', extension === '.html' ? 'no-cache' : /-[\w-]{8}\./.test(relativePath) ? 'public, max-age=31536000, immutable' : 'public, max-age=300');
-    if (/^\/(home(?:[/.]|$)|admin)/.test(pathname)) res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive');
-    res.writeHead(200);
-    return res.end(req.method === 'HEAD' ? undefined : await readFile(file));
-  } catch (error) {
-    if (!res.headersSent) res.writeHead(error.code === 'ENOENT' || error.code === 'ENOTDIR' ? 404 : 400);
-    res.end('Page unavailable');
+const root = path.join(path.dirname(fileURLToPath(import.meta.url)), 'dist');
+const routes = fs.readFileSync(path.join(root, '_redirects'), 'utf8').split(/\r?\n/)
+  .map(line => line.trim()).filter(line => line && !line.startsWith('#'))
+  .map(line => line.split(/\s+/)).filter(parts => parts.length === 3);
+const headers = [];
+let current;
+for (const line of fs.readFileSync(path.join(root, '_headers'), 'utf8').split(/\r?\n/)) {
+  if (!line.trim() || line.trim().startsWith('#')) continue;
+  if (!/^\s/.test(line)) { current = { pattern: line.trim(), values: {} }; headers.push(current); }
+  else {
+    const split = line.indexOf(':');
+    if (current && split > 0) current.values[line.slice(0, split).trim()] = line.slice(split + 1).trim();
   }
-});
-
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  const port = Number(process.env.PORT || 8080);
-  server.listen(port, '0.0.0.0', () => console.log(`TopPay listening on http://localhost:${port}`));
 }
+const mime = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.ico': 'image/x-icon', '.webp': 'image/webp', '.gif': 'image/gif', '.mp4': 'video/mp4', '.woff': 'font/woff', '.woff2': 'font/woff2' };
+
+const server = http.createServer(async (req, res) => {
+  if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return; }
+  let url, pathname;
+  try { url = new URL(req.url, 'http://localhost'); pathname = decodeURIComponent(url.pathname); }
+  catch { res.writeHead(400); res.end(); return; }
+  for (const group of headers) {
+    if (group.pattern === pathname || (group.pattern.endsWith('*') && pathname.startsWith(group.pattern.slice(0, -1)))) {
+      for (const [key, value] of Object.entries(group.values)) res.setHeader(key, value);
+    }
+  }
+  if (pathname.includes('\0') || pathname.includes('\\') || pathname.split('/').some(part => part.startsWith('.')) || ['/_headers', '/_redirects', '/_worker.js'].includes(pathname)) {
+    res.writeHead(404); res.end(); return;
+  }
+  const route = routes.find(([source]) => source === pathname);
+  if (route && Number(route[2]) !== 200) {
+    res.writeHead(Number(route[2]), { Location: route[1] + url.search }); res.end(); return;
+  }
+  let file = path.resolve(root, '.' + (route ? route[1] : pathname));
+  if (file !== root && !file.startsWith(root + path.sep)) { res.writeHead(404); res.end(); return; }
+  let status = 200;
+  try {
+    if ((await fs.promises.stat(file)).isDirectory()) file = path.join(file, 'index.html');
+    await fs.promises.access(file, fs.constants.R_OK);
+  } catch { file = path.join(root, '404.html'); status = 404; }
+  try {
+    const stat = await fs.promises.stat(file);
+    res.setHeader('Content-Type', mime[path.extname(file).toLowerCase()] || 'application/octet-stream');
+    res.setHeader('Content-Length', stat.size);
+    res.writeHead(status);
+    if (req.method === 'HEAD') res.end();
+    else fs.createReadStream(file).on('error', () => res.destroy()).pipe(res);
+  } catch { res.writeHead(500); res.end(); }
+});
+server.listen(Number(process.env.PORT || 3180), '0.0.0.0', () => console.log('TopPay static site ready'));

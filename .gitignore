@@ -1,4 +1,17 @@
 node_modules/
+.next/
+build/
 dist/
-.vercel/
-.wrangler/
+coverage/
+.DS_Store
+*.log
+seo-monitor/output/
+
+# Local environment and hosting metadata
+.env*
+!.env.example
+.vercel
+
+# Local scratch projects
+vendor/
+scratch/

@@ -1,0 +1,38 @@
+# Cloudflare Pages / Static redirects and rewrites
+# Rewrites (200 status)
+/ /index.html 200
+/home /user-app/pages/home.html 200
+/admin /admin-app/pages/login.html 200
+
+# Canonical redirects (301 status)
+/login / 301
+/index.html / 301
+/portal.html / 301
+/user-app/pages/login / 301
+/user-app/pages/login.html / 301
+
+# Clean SEO aliases
+/toppay-guide /toppay-guide.html 301
+/toppay-real-or-fake /toppay-real-or-fake.html 301
+/toppay-app-download /toppay-app-download.html 301
+/toppay-withdrawal /toppay-withdrawal.html 301
+/usdt-to-inr /usdt-to-inr.html 301
+/toppay-customer-care /toppay-customer-care.html 301
+/toppay-hindi /toppay-hindi.html 301
+/toppay-apk /toppay-apk.html 301
+/toppay-usdt /toppay-usdt.html 301
+/about-toppay /about-toppay.html 301
+/how-to-use-toppay /how-to-use-toppay.html 301
+/how-to-deposit-toppay /how-to-deposit-toppay.html 301
+/how-to-deposit-usdt-toppay /how-to-deposit-usdt-toppay.html 301
+/toppay-password-help /toppay-password-help.html 301
+/toppay-support /toppay-support.html 301
+/privacy-policy /privacy-policy.html 301
+/terms-and-conditions /terms-and-conditions.html 301
+/refund-policy /refund-policy.html 301
+/disclaimer /disclaimer.html 301
+
+/toppay-registration /toppay-registration.html 301
+/toppay-upi /toppay-upi.html 301
+/toppay-team /toppay-team.html 301
+/toppay-security /toppay-security.html 301

@@ -1,31 +1,24 @@
 {
-  "name": "toppay",
+  "name": "toppay-html",
   "private": true,
-  "version": "1.0.0",
+  "version": "3.0.0",
   "type": "module",
+  "main": "server.mjs",
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 4173",
-    "build": "vite build",
     "start": "node server.mjs",
-    "test": "node --test tests/*.test.mjs",
-    "deploy": "wrangler deploy"
+    "generate:seo": "node seo-generator.cjs",
+    "prebuild": "npm run generate:seo",
+    "dev": "vite --port=3000 --host=0.0.0.0",
+    "build": "vite build && node postbuild.cjs",
+    "preview": "vite preview --host=0.0.0.0",
+    "pretest:seo": "npm run generate:seo",
+    "test:seo": "node tests/seo-audit.mjs"
   },
   "dependencies": {
-    "lucide-react": "1.31.0",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "vite": "^6.4.3"
+    "vite": "^6.2.3"
   },
-  "devDependencies": {
-    "wrangler": "^4.137.0"
-  },
-  "engines": {
-    "node": ">=20"
-  },
-  "main": "server.mjs",
+  "devDependencies": {},
   "allowScripts": {
-    "esbuild@0.25.12": true,
-    "esbuild@0.28.2": true,
-    "workerd@1.20261019.1": true
+    "esbuild@0.25.12": true
   }
 }

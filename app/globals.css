@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+.section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px}.section-heading h2,.section-heading p{margin:0 0 5px}.section-heading p{color:#667085}.outline-button,.danger-button{padding:9px 13px;border:1px solid #cad2dd;border-radius:8px;background:#fff;cursor:pointer}.danger-button{border-color:#fecaca;color:#dc2626}.admin-message{padding:11px 14px;border-radius:9px;background:#eaf3ff;color:#075fad}.metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}.metric-grid article{display:flex;flex-direction:column;gap:8px;padding:20px;border-radius:14px;background:#fff}.metric-grid strong{font-size:28px;color:#1268d9}.admin-form,.settings-form{display:grid;grid-template-columns:1fr 2fr auto;gap:12px;padding:16px;margin-bottom:18px;border-radius:14px;background:#fff}.admin-form input,.settings-form input,.settings-form textarea{width:100%;padding:11px;border:1px solid #d8dee7;border-radius:8px}.settings-form{grid-template-columns:1fr}.settings-form label{display:grid;gap:7px}.settings-form .check{display:flex}.cards article{display:flex;flex-direction:column;gap:9px}.list{display:grid;gap:10px}.list article{display:flex;align-items:center;justify-content:space-between;padding:15px;border-radius:12px;background:#fff}.list p{margin:5px 0;color:#667085}@media(max-width:700px){.admin-form{grid-template-columns:1fr}.section-heading{align-items:flex-start}}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Inter,Arial,sans-serif;background:#f5f7fa;color:#253041}a{color:#0782ff;text-decoration:none}button,input{font:inherit}.login-container{max-width:400px;margin:0 auto;padding:20px;background:#fff;min-height:100dvh}.login-header{text-align:center;padding:10px 0;font-size:20px;font-weight:600;color:#0782ff;border-bottom:1px solid #f0f0f0;margin:0 0 115px}.login-form{display:block}.field{display:flex;align-items:center;gap:12px;margin-bottom:20px;padding:0 15px;background:#f8f9fb;border-radius:12px}.field span{width:20px;color:#98a2ad}.field input{width:100%;padding:16px 0;border:0;background:transparent;outline:none}.field:focus-within{box-shadow:0 0 0 2px #4da6ff}.forgot{text-align:right;margin-bottom:40px;font-size:14px;font-weight:500}.primary{display:block;width:100%;padding:14px 20px;border:0;border-radius:8px;background:#4da6ff;color:#fff;font-weight:600;text-align:center;cursor:pointer}.primary:disabled{opacity:.65}.login-button{margin-top:135px}.register{text-align:center;margin:24px 0 30px;color:#4b5563;font-weight:500}.register a{font-weight:600}.form-error{color:#dc2626;text-align:center;font-size:14px}.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:20px;background:rgba(0,0,0,.72)}.modal.dark{background:rgba(0,0,0,.9)}.dialog{width:min(360px,100%);padding:26px;border-radius:16px;background:#fff;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,.28)}.dialog h2{margin:8px 0}.dialog p{color:#667085;line-height:1.5}.secondary{display:inline-block;padding:10px 14px;border-radius:8px;background:#e8edff;word-break:break-all}.phone-shell{position:relative;max-width:430px;min-height:100dvh;margin:auto;background:#f5f7fa;box-shadow:0 0 30px #d8dee8}.app-header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;background:#fff;color:#087cff}.app-header strong{font-size:21px}.slider{position:relative;height:175px;background-size:cover;background-position:center;transition:.4s}.dots{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:center;gap:6px}.dots i{width:7px;height:7px;border-radius:20px;background:#ffffff88}.dots i.active{width:20px;background:#fff}.dashboard-content{padding:16px 16px 100px}.ratio-card{display:flex;justify-content:space-between;padding:18px;border-radius:14px;background:#fff;box-shadow:0 4px 18px #dce4ee}.ratio-card div{display:flex;flex-direction:column;gap:6px}.ratio-card small,.stat-grid small{color:#7b8794}.ratio-card b{font-size:22px;color:#0782ff}.topup{position:relative;width:100%;margin:20px 0;padding:15px;border:0;border-radius:13px;background:#0782ff;color:#fff;font-weight:700}.topup span{position:absolute;right:-5px;top:-11px;padding:4px 10px;border-radius:20px;background:#7047eb;font-size:11px}.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat-grid div{display:flex;flex-direction:column;gap:8px;padding:16px;border-radius:12px;background:#fff}.bottom-nav{position:fixed;bottom:0;display:flex;justify-content:space-around;width:min(430px,100%);padding:12px 8px;background:#fff;border-top:1px solid #e8ebef}.bottom-nav b{display:flex;flex-direction:column;align-items:center;gap:3px;color:#1686f7}.bottom-nav small{font-size:10px}.mpin{display:flex;gap:7px;justify-content:center;margin:24px 0}.mpin input{width:38px;height:45px;border:1px solid #ccd3dc;border-radius:8px;text-align:center;font-size:22px}.text-button{margin-top:16px;border:0;background:none;color:#687386;cursor:pointer}.success-mark,.telegram-mark{display:grid;place-items:center;width:64px;height:64px;margin:auto;border-radius:50%;background:#dcfce7;color:#16a34a;font-size:32px}.telegram-mark{background:#e0f2fe;color:#0284c7}.video video{width:100%;border-radius:10px;margin-bottom:12px}.link-button{margin-top:18px}.center-screen{min-height:100dvh;display:grid;place-items:center}.admin-login{min-height:100dvh;display:grid;place-items:center;padding:20px;background:linear-gradient(135deg,#102c62,#153f84,#27256c)}.admin-login form{width:min(420px,100%);padding:34px;border:1px solid #ffffff33;border-radius:20px;background:#ffffff16;color:#fff;backdrop-filter:blur(14px)}.admin-login h1,.admin-login p{text-align:center}.admin-login label{display:block;margin-top:18px}.admin-login input{display:block;width:100%;margin-top:8px;padding:13px;border:1px solid #ffffff30;border-radius:10px;background:#0003;color:#fff}.shield{text-align:center;font-size:42px}.admin-login .primary{margin-top:22px}.admin-shell{display:grid;grid-template-columns:240px 1fr;min-height:100dvh}.admin-shell aside{padding:24px;background:#1268d9;color:#fff}.admin-shell aside button{display:block;width:100%;padding:12px;margin:8px 0;border:0;border-radius:8px;background:transparent;color:#fff;text-align:left}.admin-shell aside button.active{background:#ffffff2b}.admin-shell section{padding:30px;overflow:auto}.table-wrap{overflow:auto;background:#fff;border-radius:14px}.table-wrap table{width:100%;border-collapse:collapse}.table-wrap th,.table-wrap td{padding:13px 16px;border-bottom:1px solid #edf0f4;text-align:left}.cards,.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.cards article,.settings article{padding:16px;border-radius:14px;background:#fff}.cards img{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:9px}.settings small{word-break:break-all;color:#667085}@media(max-width:700px){.admin-shell{grid-template-columns:1fr}.admin-shell aside{display:flex;gap:6px;overflow:auto}.admin-shell aside h1{display:none}.admin-shell aside button{min-width:max-content}.admin-shell section{padding:18px}}
+
+/* ==============================================================
+   SEO CONTENT — shown only below the login screen (on scroll).
+============================================================== */
+.login-seo-content{width:min(760px,calc(100% - 32px));margin:24px auto 48px;padding:clamp(22px,5vw,40px);background:#fff;border:1px solid #e6edf5;border-radius:20px;box-shadow:0 14px 40px rgba(7,130,255,.08);color:#354052;font-size:15px;line-height:1.72}
+.login-seo-content h2,.login-seo-content h3{color:#172033;line-height:1.3}
+.login-seo-content h2{margin:30px 0 10px;font-size:clamp(20px,4vw,27px)}
+.login-seo-content h2:first-of-type{margin-top:12px}
+.login-seo-content h3{margin:22px 0 7px;font-size:17px}
+.login-seo-content p{margin:0 0 14px}
+.seo-kicker{display:inline-flex;padding:6px 11px;border-radius:999px;background:#eaf4ff;color:#0782ff;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.seo-summary{font-size:16px}
+.seo-steps{margin:18px 0 0;padding-left:22px}
+.seo-steps li+li{margin-top:8px}
+.seo-card-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0}
+.seo-card{padding:18px;border:1px solid #e2eefb;border-radius:15px;background:#f8fbff}
+.seo-card h2{margin:0 0 8px;font-size:17px}
+.seo-card p{font-size:14px}
+.seo-card a,.seo-links a{color:#0782ff;font-weight:600}
+.seo-takeaway{margin:8px 0;padding:15px 17px;border-left:4px solid #0782ff;border-radius:0 12px 12px 0;background:#f0f8ff}
+.seo-faq{margin-top:8px}
+.seo-links{margin-top:26px;padding-top:20px;border-top:1px solid #e6edf5;display:flex;flex-wrap:wrap;gap:10px 20px}
+@media(max-width:560px){.seo-card-grid{grid-template-columns:1fr}}
+
+/* ==============================================================
+   HOME REDESIGN — matches the live TopPay app screenshots.
+   Scoped to .phone-shell so it overrides the earlier home rules.
+   Visual only — UserHome.js workflow is unchanged.
+============================================================== */
+.phone-shell .app-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:#fff;color:#111}
+.phone-shell .app-header strong{font-size:22px;font-weight:800;letter-spacing:-.02em}
+.phone-shell .header-chat{font-size:20px;color:#111}
+.phone-shell .dashboard-content{padding:14px 16px 96px}
+.phone-shell .promo-slider{margin-bottom:16px}
+.phone-shell .promo-card{position:relative;display:flex;justify-content:space-between;align-items:center;min-height:150px;padding:22px;border-radius:16px;background:linear-gradient(120deg,#0f1115,#1c2230);color:#fff;overflow:hidden}
+.phone-shell .promo-card.promo-image{background-size:cover;background-position:center}
+.phone-shell .promo-text h3{margin:0 0 6px;font-size:23px;font-weight:800;line-height:1.15;color:#fff}
+.phone-shell .promo-text p{margin:0 0 14px;color:#c9d2e0;font-size:14px}
+.phone-shell .promo-cta{display:inline-block;padding:8px 16px;border:1px solid #ffffff66;border-radius:8px;font-size:13px;font-weight:600}
+.phone-shell .promo-emoji{font-size:60px;line-height:1}
+.phone-shell .dots{position:static;display:flex;justify-content:center;gap:6px;margin-top:10px}
+.phone-shell .dots i{width:7px;height:7px;border-radius:20px;background:#c7d0dc}
+.phone-shell .dots i.active{width:20px;background:#0782ff}
+.phone-shell .ratio-card{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-radius:14px;background:#fff;box-shadow:0 4px 18px #dce4ee}
+.phone-shell .ratio-left,.phone-shell .ratio-right{display:flex;flex-direction:column;gap:6px}
+.phone-shell .ratio-left small,.phone-shell .ratio-right small{color:#7b8794;font-size:13px}
+.phone-shell .ratio-left strong{font-size:19px;font-weight:800;color:#111}
+.phone-shell .ratio-left span{color:#9aa4b2;font-size:12px}
+.phone-shell .ratio-right{align-items:flex-start;padding-left:18px;min-width:120px}
+.phone-shell .ratio-right b{font-size:26px;color:#111}
+.phone-shell .ratio-divider{width:1px;align-self:stretch;background:#eceff3}
+.phone-shell .topup{position:relative;width:100%;margin:16px 0;padding:18px;border:0;border-radius:14px;background:#111827;color:#fff;font-weight:700;font-size:16px;overflow:hidden;cursor:pointer}
+.phone-shell .topup-badge{position:absolute;top:0;right:0;padding:5px 14px;background:linear-gradient(135deg,#7c3aed,#4f46e5);color:#fff;font-size:11px;font-weight:700;border-bottom-left-radius:12px}
+.phone-shell .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#fff;border-radius:14px;padding:6px}
+.phone-shell .stat-cell{display:flex;flex-direction:row;align-items:center;justify-content:space-between;padding:16px 14px;background:transparent;border-radius:0}
+.phone-shell .stat-text{display:flex;flex-direction:column;gap:6px;padding:0;background:transparent}
+.phone-shell .stat-text small{color:#7b8794;font-size:13px}
+.phone-shell .stat-text strong{font-size:17px;color:#111}
+.phone-shell .chev{color:#c0c8d2;font-size:20px}
+.phone-shell .tutorial{margin-top:16px;padding:18px;border-radius:14px;background:#fff}
+.phone-shell .tutorial h2{margin:0 0 12px;font-size:19px;font-weight:800;color:#111}
+.phone-shell .tutorial-row{display:flex;align-items:flex-start;gap:10px}
+.phone-shell .tutorial-row .warn{font-size:18px}
+.phone-shell .tutorial-row p{margin:0;color:#253041;font-weight:600;line-height:1.4}
+.phone-shell .bottom-nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);display:flex;justify-content:space-around;width:min(430px,100%);padding:10px 6px;background:#fff;border-top:1px solid #e8ebef}
+.phone-shell .bottom-nav b{display:flex;flex-direction:column;align-items:center;gap:3px;color:#9aa4b2;font-weight:500}
+.phone-shell .bottom-nav b span{font-size:19px}
+.phone-shell .bottom-nav b small{font-size:10px}
+.phone-shell .bottom-nav b.active{color:#111;font-weight:700}
+.phone-shell .fab-chat{position:fixed;right:16px;bottom:80px;width:52px;height:52px;border:0;border-radius:50%;background:#0a97ff;color:#fff;font-size:22px;box-shadow:0 8px 20px rgba(10,151,255,.4);cursor:pointer;z-index:20}
+.phone-shell .mpin-dialog .mpin-badge{display:grid;place-items:center;width:60px;height:60px;margin:0 auto 6px;border-radius:50%;background:#eaf4ff;color:#0782ff;font-size:28px}
+.phone-shell .mpin-dialog h2{color:#0782ff}
+.phone-shell .mpin input{width:40px;height:48px;border:1px solid #d7dee7;border-radius:10px;text-align:center;font-size:22px;color:#111}
+.phone-shell .mpin input:focus{outline:none;border-color:#0782ff;box-shadow:0 0 0 2px #4da6ff55}

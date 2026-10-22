@@ -1,74 +1,128 @@
-const canonicalHost = 'top-payy.online';
+/**
+ * Cloudflare Worker for TopPay 3.0
+ * Handles rewrites, redirects, static asset delivery and security headers.
+ */
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
+    const pathname = url.pathname;
 
-    // Redirect HTTP to HTTPS and www to non-www
-    if (url.protocol === 'http:' || url.hostname === `www.${canonicalHost}`) {
-      url.protocol = 'https:';
-      if (url.hostname === `www.${canonicalHost}`) url.hostname = canonicalHost;
-      return Response.redirect(url.href, 301);
+    // 1. Permanent Canonical Redirects
+    if (
+      pathname === '/login' ||
+      pathname === '/index.html' ||
+      pathname === '/portal.html' ||
+      pathname === '/user-app/pages/login' ||
+      pathname === '/user-app/pages/login.html'
+    ) {
+      return Response.redirect(`${url.origin}/`, 301);
     }
 
-    // Health check
-    if (url.pathname === '/healthz') {
-      return new Response(request.method === 'HEAD' ? null : 'ok', {
-        headers: { 'Cache-Control': 'no-store' }
-      });
+    // Clean SEO aliases (without .html redirect to .html)
+    const seoAliases = [
+      '/toppay-guide',
+      '/toppay-real-or-fake',
+      '/toppay-app-download',
+      '/toppay-withdrawal',
+      '/usdt-to-inr',
+      '/toppay-customer-care',
+      '/toppay-hindi',
+      '/toppay-apk',
+      '/toppay-usdt',
+      '/about-toppay',
+      '/how-to-use-toppay',
+      '/how-to-deposit-toppay',
+      '/how-to-deposit-usdt-toppay',
+      '/toppay-password-help',
+      '/toppay-support',
+      '/privacy-policy',
+      '/terms-and-conditions',
+      '/refund-policy',
+      '/disclaimer'
+    ];
+
+    if (seoAliases.includes(pathname)) {
+      return Response.redirect(`${url.origin}${pathname}.html`, 301);
     }
 
-    // Block non-GET/HEAD methods
-    if (!['GET', 'HEAD'].includes(request.method)) {
-      return new Response('Method Not Allowed', {
-        status: 405,
-        headers: { Allow: 'GET, HEAD', 'Cache-Control': 'no-store' }
-      });
+    // 2. URL Rewrites
+    // For root /, dist/index.html is the built login app (copied by postbuild.cjs).
+    // Serving /index.html directly ensures a clean 200 OK response with no 307 temporary redirect.
+    let assetUrl = new URL(request.url);
+    if (pathname === '/') {
+      assetUrl.pathname = '/index.html';
+    } else if (pathname === '/home') {
+      assetUrl.pathname = '/user-app/pages/home.html';
+    } else if (pathname === '/admin') {
+      assetUrl.pathname = '/admin-app/pages/login.html';
     }
 
-    // Validate path
-    let path;
-    try { path = decodeURIComponent(url.pathname); } catch {
-      return new Response('Invalid URL', { status: 400 });
-    }
-    if (path.includes('\\') || path.includes('\0') || path.split('/').some(p => p.startsWith('.'))) {
-      return new Response('Not found', { status: 404 });
-    }
-
-    // Try to serve the exact static asset first (JS, CSS, images, fonts, etc.)
+    // 3. Fetch from Static Assets
+    let response;
     try {
-      const assetResponse = await env.ASSETS.fetch(new Request(url.href, request));
-      if (assetResponse.status === 200) {
-        const response = new Response(request.method === 'HEAD' ? null : assetResponse.body, assetResponse);
-        addSecurityHeaders(response);
-        // Cache immutable assets (hashed filenames) for 1 year
-        const ext = path.split('.').pop()?.toLowerCase();
-        if (['js', 'css', 'woff', 'woff2', 'ttf', 'otf', 'png', 'jpg', 'jpeg', 'svg', 'webp', 'ico'].includes(ext)) {
-          // Only cache if filename looks like it has a hash (e.g., index-Dv9wD1iP.js)
-          if (/[-_.][a-zA-Z0-9]{8,}\./.test(path)) {
-            response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
-          } else {
-            response.headers.set('Cache-Control', 'public, max-age=3600');
+      if (env && env.ASSETS) {
+        response = await env.ASSETS.fetch(new Request(assetUrl, request));
+        // Safety guard: If ASSETS returned an internal redirect (e.g. 307/308 to strip .html or slash),
+        // resolve it internally so Googlebot and browsers always receive a direct 200 OK.
+        if (response.status >= 300 && response.status < 400) {
+          const location = response.headers.get('Location');
+          if (location && (pathname === '/' || pathname === '/home' || pathname === '/admin' || pathname.endsWith('.html'))) {
+            const redirectUrl = new URL(location, request.url);
+            const followed = await env.ASSETS.fetch(new Request(redirectUrl, request));
+            if (followed && followed.status === 200) {
+              response = followed;
+            }
           }
         }
-        return response;
+      } else {
+        response = await fetch(new Request(assetUrl, request));
       }
-    } catch (_) { /* fall through to SPA */ }
+    } catch (err) {
+      return new Response(`Server Error: ${err.message}`, { status: 500 });
+    }
 
-    // SPA fallback: serve index.html for all non-asset routes (React Router handles routing)
-    const indexUrl = new URL(url.href);
-    indexUrl.pathname = '/index.html';
-    const indexResponse = await env.ASSETS.fetch(new Request(indexUrl.href, request));
-    const response = new Response(request.method === 'HEAD' ? null : indexResponse.body, indexResponse);
-    addSecurityHeaders(response);
-    // Never cache the shell HTML — React app needs fresh deploys to take effect
-    response.headers.set('Cache-Control', 'no-cache');
-    return response;
+    // Fallback to 404.html if asset not found
+    if (response.status === 404) {
+      try {
+        const notFoundUrl = new URL('/404.html', request.url);
+        if (env && env.ASSETS) {
+          const notFoundResponse = await env.ASSETS.fetch(new Request(notFoundUrl, request));
+          if (notFoundResponse && notFoundResponse.status === 200) {
+            response = notFoundResponse;
+          }
+        }
+      } catch (e) {
+        // keep original response
+      }
+    }
+
+    // 4. Attach Security & Cache Headers
+    const headers = new Headers(response.headers);
+    headers.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload');
+    headers.set('X-Content-Type-Options', 'nosniff');
+    headers.set('X-Frame-Options', 'SAMEORIGIN');
+    headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    headers.set(
+      'Content-Security-Policy',
+      "default-src 'self'; script-src 'self' 'unsafe-inline' https://unpkg.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://kxsgjfvtfmbruddeolbt.supabase.co https://*.supabase.co; media-src 'self' https:; frame-ancestors 'none';"
+    );
+
+    if (pathname.startsWith('/assets/')) {
+      headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    } else if (pathname === '/sitemap.xml') {
+      headers.set('Content-Type', 'application/xml; charset=utf-8');
+      headers.set('Cache-Control', 'public, max-age=3600');
+    } else if (pathname === '/robots.txt') {
+      headers.set('Content-Type', 'text/plain; charset=utf-8');
+      headers.set('Cache-Control', 'public, max-age=3600');
+    }
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers
+    });
   }
 };
-
-function addSecurityHeaders(response) {
-  response.headers.set('X-Content-Type-Options', 'nosniff');
-  response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  response.headers.set('X-Frame-Options', 'SAMEORIGIN');
-}

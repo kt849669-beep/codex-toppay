@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Users - TopPay Admin</title>
+    <link rel="icon" type="image/jpeg" href="/toppay-logo.jpeg" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <script src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+    <script src="/assets/vendor/jspdf.umd.min.js"></script>
+    <script src="/assets/vendor/jspdf.plugin.autotable.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div
+          class="sidebar-header flex items-center"
+          style="gap: 12px; padding: 20px"
+        >
+          <div
+            style="
+              background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+              color: white;
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: 24px;
+              font-style: italic;
+            "
+          >
+            S
+          </div>
+          <div class="sidebar-logo-text">
+            <div
+              style="font-size: 18px; font-weight: bold; letter-spacing: 1px"
+            >
+              TOPPAY
+            </div>
+            <div style="font-size: 10px; color: #9ca3af; letter-spacing: 1px">
+              ADMIN PANEL
+            </div>
+          </div>
+        </div>
+        <nav class="nav-links" style="overflow-y: auto">
+          <a href="dashboard.html" class="nav-link"
+            ><i data-lucide="circle"></i> Dashboard</a
+          >
+          <a href="users.html" class="nav-link active"
+            ><i data-lucide="circle"></i> Users</a
+          >
+          <a href="slider.html" class="nav-link"
+            ><i data-lucide="circle"></i> Slider</a
+          >
+          <a href="video-popup.html" class="nav-link"
+            ><i data-lucide="circle"></i> Video Popup</a
+          >
+          <a href="telegram.html" class="nav-link"
+            ><i data-lucide="circle"></i> Telegram</a
+          >
+          <a href="settings.html" class="nav-link"
+            ><i data-lucide="circle"></i> Settings</a
+          >
+          <a href="trash.html" class="nav-link"
+            ><i data-lucide="circle"></i> Trash</a
+          >
+          <a href="activity.html" class="nav-link"
+            ><i data-lucide="circle"></i> Activity Logs</a
+          >
+          <a href="reports.html" class="nav-link"
+            ><i data-lucide="circle"></i> Reports</a
+          >
+          <a href="banner.html" class="nav-link"
+            ><i data-lucide="circle"></i> Banner</a
+          >
+          <a href="notifications.html" class="nav-link"
+            ><i data-lucide="circle"></i> Notifications</a
+          >
+          <a href="profile.html" class="nav-link"
+            ><i data-lucide="circle"></i> Profile</a
+          >
+          <button
+            class="nav-link"
+            id="logoutBtn"
+            style="color: #ef4444; margin-top: auto"
+          >
+            <i data-lucide="log-out"></i><span>Logout</span>
+          </button>
+        </nav>
+
+        <div
+          class="sidebar-footer"
+          style="
+            padding: 20px;
+            border-top: 1px solid #374151;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+          "
+        >
+          <div
+            style="
+              background: #3b82f6;
+              color: white;
+              width: 36px;
+              height: 36px;
+              border-radius: 8px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <i data-lucide="shield" style="width: 20px; height: 20px"></i>
+          </div>
+          <div class="sidebar-footer-text">
+            <div style="font-size: 14px; font-weight: 600">TopPay Admin</div>
+            <div style="font-size: 12px; color: #9ca3af">
+              Super Administrator
+            </div>
+          </div>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="flex items-center" style="gap: 16px">
+            <button
+              id="sidebarToggle"
+              style="
+                background: none;
+                border: none;
+                cursor: pointer;
+                color: #1f2937;
+              "
+            >
+              <i data-lucide="menu"></i>
+            </button>
+            <h2 style="font-size: 20px">Users</h2>
+          </div>
+          <div class="flex items-center topbar-right" style="gap: 20px">
+            <div style="position: relative" class="search-bar">
+              <input
+                type="text"
+                placeholder="Search here..."
+                style="
+                  padding: 8px 16px;
+                  border: 1px solid #e5e7eb;
+                  border-radius: 20px;
+                  outline: none;
+                  padding-right: 32px;
+                  width: 250px;
+                  background: #f9fafb;
+                "
+              />
+              <i
+                data-lucide="search"
+                style="
+                  position: absolute;
+                  right: 12px;
+                  top: 50%;
+                  transform: translateY(-50%);
+                  color: #6b7280;
+                  width: 16px;
+                  height: 16px;
+                "
+              ></i>
+            </div>
+            <div style="position: relative; cursor: pointer">
+              <i data-lucide="bell"></i>
+              <span
+                style="
+                  position: absolute;
+                  top: -4px;
+                  right: -4px;
+                  background: #ef4444;
+                  color: white;
+                  border-radius: 50%;
+                  width: 16px;
+                  height: 16px;
+                  font-size: 10px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+                >5</span
+              >
+            </div>
+            <div class="flex items-center" style="gap: 12px; cursor: pointer">
+              <img
+                src="https://ui-avatars.com/api/?name=Admin&background=random"
+                alt="Admin"
+                style="width: 36px; height: 36px; border-radius: 50%"
+              />
+              <div class="admin-profile-text">
+                <div style="font-size: 14px; font-weight: 600">Admin</div>
+                <div style="font-size: 12px; color: #6b7280">Super Admin</div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="card">
+            <div
+              class="card-title flex justify-between items-center"
+              style="margin-bottom: 10px"
+            >
+              <span>Registered Users</span>
+              <div>
+                <button
+                  id="downloadAllPdfBtn"
+                  class="admin-btn"
+                  style="
+                    width: auto;
+                    padding: 8px 16px;
+                    background: #10b981;
+                    margin-right: 10px;
+                  "
+                >
+                  Download All PDF
+                </button>
+                <button
+                  id="deleteAllUsersBtn"
+                  class="admin-btn"
+                  style="
+                    width: auto;
+                    padding: 8px 16px;
+                    background: #ef4444;
+                    margin-right: 10px;
+                  "
+                >
+                  Delete All
+                </button>
+                <button
+                  id="refreshUsers"
+                  class="admin-btn"
+                  style="width: auto; padding: 8px 16px"
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
+            <div class="flex" style="gap: 10px; margin-bottom: 16px">
+              <input
+                type="text"
+                id="searchUsersInput"
+                class="admin-input"
+                placeholder="Search by mobile number..."
+                style="margin-bottom: 0; max-width: 300px"
+              />
+              <select
+                id="filterUsersSelect"
+                class="admin-input"
+                style="margin-bottom: 0; max-width: 200px"
+              >
+                <option value="all">All Users</option>
+                <option value="completed">Completed MPIN</option>
+                <option value="pending">Pending MPIN</option>
+              </select>
+            </div>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 40px"><input type="checkbox" id="selectAllUsers"></th>
+                    <th>User ID</th>
+                    <th>Mobile</th>
+                    <th>Password</th>
+                    <th>MPIN</th>
+                    <th>Logins</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="usersTableBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div
+            id="userDetailsModal"
+            class="hidden"
+            style="
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background: rgba(0, 0, 0, 0.5);
+              z-index: 100;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            "
+          >
+            <div
+              style="
+                background: white;
+                padding: 24px;
+                border-radius: 12px;
+                width: 400px;
+                max-width: 90%;
+              "
+            >
+              <div
+                class="flex justify-between items-center mb-4"
+                style="margin-bottom: 16px"
+              >
+                <h3 style="font-size: 18px; font-weight: 600">User Details</h3>
+                <button
+                  id="closeUserDetailsBtn"
+                  style="background: none; border: none; cursor: pointer"
+                >
+                  <i data-lucide="x"></i>
+                </button>
+              </div>
+              <div
+                id="userDetailsContent"
+                style="margin-bottom: 20px; line-height: 1.6; font-size: 14px"
+              ></div>
+              <div class="flex flex-col" style="gap: 10px">
+                <button
+                  id="gmailForwardBtn"
+                  class="admin-btn"
+                  style="background: #ea4335"
+                >
+                  <i
+                    data-lucide="mail"
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: inline;
+                      margin-bottom: -3px;
+                      margin-right: 4px;
+                    "
+                  ></i>
+                  Forward via Gmail
+                </button>
+                <button
+                  id="downloadPdfBtn"
+                  class="admin-btn"
+                  style="background: #10b981"
+                >
+                  <i
+                    data-lucide="download"
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: inline;
+                      margin-bottom: -3px;
+                      margin-right: 4px;
+                    "
+                  ></i>
+                  Download PDF
+                </button>
+                <button
+                  id="deleteUserBtn"
+                  class="admin-btn"
+                  style="background: #ef4444"
+                >
+                  <i
+                    data-lucide="trash"
+                    style="
+                      width: 16px;
+                      height: 16px;
+                      display: inline;
+                      margin-bottom: -3px;
+                      margin-right: 4px;
+                    "
+                  ></i>
+                  Delete User
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="../../user-app/js/config/supabase.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/users.js"></script>
+    <script>
+      lucide.createIcons();
+    </script>
+    <script type="module" src="../js/sidebar.js"></script>
+  </body>
+</html>

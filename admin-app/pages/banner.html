@@ -1,0 +1,94 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banner - TopPay Admin</title>
+    <link rel="icon" type="image/jpeg" href="/toppay-logo.jpeg" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <script src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-header flex items-center" style="gap: 12px; padding: 20px">
+          <div style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; font-style: italic;">S</div>
+          <div class="sidebar-logo-text">
+            <div style="font-size: 18px; font-weight: bold; letter-spacing: 1px">TOPPAY</div>
+            <div style="font-size: 10px; color: #9ca3af; letter-spacing: 1px">ADMIN PANEL</div>
+          </div>
+        </div>
+        <nav class="nav-links" style="overflow-y: auto">
+          <a href="dashboard.html" class="nav-link"><i data-lucide="circle"></i> Dashboard</a>
+          <a href="users.html" class="nav-link"><i data-lucide="circle"></i> Users</a>
+          <a href="slider.html" class="nav-link"><i data-lucide="circle"></i> Slider</a>
+          <a href="video-popup.html" class="nav-link"><i data-lucide="circle"></i> Video Popup</a>
+          <a href="telegram.html" class="nav-link"><i data-lucide="circle"></i> Telegram</a>
+          <a href="settings.html" class="nav-link"><i data-lucide="circle"></i> Settings</a>
+          <a href="trash.html" class="nav-link"><i data-lucide="circle"></i> Trash</a>
+          <a href="activity.html" class="nav-link"><i data-lucide="circle"></i> Activity Logs</a>
+          <a href="reports.html" class="nav-link"><i data-lucide="circle"></i> Reports</a>
+          <a href="banner.html" class="nav-link active"><i data-lucide="circle"></i> Banner</a>
+          <a href="notifications.html" class="nav-link"><i data-lucide="circle"></i> Notifications</a>
+          <a href="profile.html" class="nav-link"><i data-lucide="circle"></i> Profile</a>
+          <button class="nav-link" id="logoutBtn" style="color: #ef4444; margin-top: auto"><i data-lucide="log-out"></i><span>Logout</span></button>
+        </nav>
+        <div class="sidebar-footer" style="padding: 20px; border-top: 1px solid #374151; margin-top: auto; display: flex; align-items: center; gap: 12px;">
+          <div style="background: #3b82f6; color: white; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i data-lucide="shield" style="width: 20px; height: 20px"></i></div>
+          <div class="sidebar-footer-text">
+            <div style="font-size: 14px; font-weight: 600">TopPay Admin</div>
+            <div style="font-size: 12px; color: #9ca3af">Super Administrator</div>
+          </div>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="flex items-center" style="gap: 16px">
+            <button id="sidebarToggle" style="background: none; border: none; cursor: pointer; color: #1f2937"><i data-lucide="menu"></i></button>
+            <h2 style="font-size: 20px">Banner Management</h2>
+          </div>
+          <div class="flex items-center topbar-right" style="gap: 20px">
+            <div style="position: relative" class="search-bar">
+              <input type="text" placeholder="Search here..." style="padding: 8px 16px; border: 1px solid #e5e7eb; border-radius: 20px; outline: none; padding-right: 32px; width: 250px; background: #f9fafb;" />
+              <i data-lucide="search" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #6b7280; width: 16px; height: 16px;"></i>
+            </div>
+            <div class="flex items-center" style="gap: 12px; cursor: pointer">
+              <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin" style="width: 36px; height: 36px; border-radius: 50%" />
+              <div class="admin-profile-text">
+                <div style="font-size: 14px; font-weight: 600">Admin</div>
+                <div style="font-size: 12px; color: #6b7280">Super Admin</div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="content-body">
+          <div class="card">
+            <div class="card-title">Upload New Banner</div>
+            <div class="flex" style="gap: 10px; flex-wrap: wrap; align-items: flex-end;">
+              <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                <label>Banner Image</label>
+                <input type="file" id="bannerFileInput" accept="image/*" class="admin-input" style="margin-bottom: 0;" />
+              </div>
+              <div class="form-group" style="margin-bottom: 0; min-width: 200px;">
+                <label>Title (optional)</label>
+                <input type="text" id="bannerTitle" class="admin-input" placeholder="Banner title" style="margin-bottom: 0;" />
+              </div>
+              <button id="uploadBannerBtn" class="admin-btn" style="width: 140px; height: fit-content;">Upload Banner</button>
+            </div>
+            <div id="bannerUploadProgress" class="hidden" style="color: #3b82f6; font-size: 14px; margin-top: 10px;">Uploading banner... Please wait.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">Current Banners</div>
+            <div id="bannersGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px;"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="../../user-app/js/config/supabase.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/banner.js"></script>
+    <script>lucide.createIcons();</script>
+    <script type="module" src="../js/sidebar.js"></script>
+  </body>
+</html>

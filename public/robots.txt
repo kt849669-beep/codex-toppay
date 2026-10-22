@@ -1,7 +1,18 @@
+# https://top-payy.online/robots.txt
 User-agent: *
 Allow: /
-Disallow: /api/
 
-# Account and admin pages also return noindex in HTML and response headers.
+# Account and administrator pages
+Disallow: /admin
+Disallow: /admin-app/
+Disallow: /user-app/
+
+# Allow crawling of redirects and error pages so crawlers can process
+# their redirect responses and noindex metadata.
+
+# Media and asset crawling is allowed
+Allow: /assets/
+Allow: /toppay-logo.jpeg
+Allow: /toppay-og.png
 
 Sitemap: https://top-payy.online/sitemap.xml

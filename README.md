@@ -1,29 +1,46 @@
 # TopPay
 
-Canonical site: **https://top-payy.online/**
+Mobile web application with user and administrator panels, backed by Supabase.
 
-This project is a clearly labelled local demonstration. The login screen, six-tap PIN screen and home preview do not authenticate financial accounts or process payments. Passwords, phone numbers and PIN values are not sent to any service. Only a non-personal demo-session flag is kept in session storage.
+## Local development
 
-The admin preview retains Dashboard, Users, Slides, Banner, Trash, Telegram, Media and Profile. Settings apply to the current browser only. User password and MPIN columns show “Not collected”; exports do not contain those values. Legacy local user metadata is sanitized. Previous remote database records are not accessed or erased by this code.
+```sh
+npm ci
+npm run dev
+```
 
-## Cloudflare hosting
+Open `http://localhost:3000` for the user login or `http://localhost:3000/admin` for the administrator login.
 
-- GitHub source: `kt849669-beep/codex-toppay`, branch `main`.
-- New Worker: `top-payy-online`, configured in `wrangler.jsonc`.
-- Install and build: `npm ci` then `npm run build` (Node.js 20 or newer).
-- Verify: `npm test`.
-- Deploy: `npm run deploy` using the authorized Cloudflare account.
-- Custom domains: connect `top-payy.online` and `www.top-payy.online` in this Worker's Settings → Domains & Routes. Domain bindings are managed in Cloudflare, not hardcoded into the deploy command.
-- Health endpoint: `/healthz`. No database credentials or API secrets are required.
+## Commands
 
-`worker.js` runs before static assets to enforce HTTPS/www redirects, clean account URLs, duplicate-page redirects, noindex headers for account/admin and preview hosts, and proper 404 responses. It does not accept login form posts. `server.mjs` is an optional local Node.js preview (`npm start`).
+| Command | Purpose |
+| --- | --- |
+| `npm run dev` | Start the development server |
+| `npm run generate:seo` | Generate guides, robots.txt and sitemap.xml |
+| `npm run build` | Generate public pages and build into dist/ |
+| `npm run preview` | Serve the built static files locally |
+| `npm run test:seo` | Check metadata, canonical URLs, links and sitemap entries |
 
-## Domain and search setup
+The preview server serves file paths directly. Use `/user-app/pages/login.html` or `/admin-app/pages/login.html` when previewing a build.
 
-1. Deploy and verify the new Worker before disconnecting the old `codex-toppay` application's domains.
-2. Add `top-payy.online` to Cloudflare and preserve unrelated DNS records. Set the assigned Cloudflare nameservers at GoDaddy, then connect the custom domains to the new Worker.
-3. Confirm HTTPS, homepage, original logo, demo screens, admin preview, robots.txt and sitemap.xml.
-4. Verify the new Google Search Console property and submit `https://top-payy.online/sitemap.xml`.
-5. The supplied 640×640 TopPay JPEG is used directly for the site icon, apple touch icon, social images and website image metadata. Google must recrawl the homepage before search appearance can change; favicon display and ranking are not guaranteed.
+## Project layout
 
-The files in `migration/` are an optional old-domain redirect plan. They are not deployed by `npm run deploy`. The user's current request is to disconnect the old project's domains after the new site is working. Search Console Change of Address requires working redirects; it cannot be completed while the old domain is disconnected.
+| Directory | Contents |
+| --- | --- |
+| `user-app/` | User pages, styles and browser scripts |
+| `admin-app/` | Administrator pages, styles and browser scripts |
+| `public/` | Public assets and generated guides |
+| `shared/` | Shared styles, components and utilities |
+| `database/` | Database schema and policy files |
+| `tests/` | SEO audit |
+| `docs/` | Project, deployment and database notes |
+
+See [project notes](docs/PROJECT.md), [deployment](docs/DEPLOYMENT.md) and [database configuration](docs/SUPABASE.md).
+
+## Configuration
+
+The active browser database client is in `user-app/js/config/supabase.js`.
+The public site domain and guide content are maintained in `seo-content.cjs`.
+Changing a hosting account does not update these values automatically.
+
+Connect this GitHub repository to GoDaddy Node.js hosting for `top-payy.online`. Build with `npm run build` and start with `npm start`; `server.mjs` serves `dist/` with the existing routes and response headers.

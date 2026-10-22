@@ -1,0 +1,42 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login - TopPay</title>
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/jpeg" href="/toppay-logo.jpeg" />
+    <link rel="stylesheet" href="../css/admin.css" />
+  </head>
+  <body>
+    <div class="admin-login-wrapper">
+      <div class="admin-login-box">
+        <div style="text-align: center; margin-bottom: 24px;">
+          <img class="admin-brand-logo" src="/toppay-logo.jpeg" alt="TopPay logo" />
+        </div>
+        <div class="admin-title">Admin Portal</div>
+        <form id="adminLoginForm">
+          <input
+            type="email"
+            id="email"
+            class="admin-input"
+            placeholder="admin@toppay.com"
+            required
+          />
+          <input
+            type="password"
+            id="password"
+            class="admin-input"
+            placeholder="Password"
+            required
+          />
+          <div id="errorMsg" class="hidden" style="color: #ef4444; text-align: center; margin-bottom: 16px; font-size: 14px;"></div>
+          <button type="submit" class="admin-btn">Login</button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module" src="../../user-app/js/config/supabase.js"></script>
+    <script type="module" src="../js/login.js"></script>
+  </body>
+</html>

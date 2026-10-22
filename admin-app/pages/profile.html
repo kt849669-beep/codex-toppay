@@ -1,0 +1,125 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile - TopPay Admin</title>
+    <link rel="icon" type="image/jpeg" href="/toppay-logo.jpeg" />
+    <link rel="stylesheet" href="../css/admin.css" />
+    <script src="https://unpkg.com/lucide@0.511.0/dist/umd/lucide.min.js"></script>
+  </head>
+  <body>
+    <div class="dashboard-layout">
+      <aside class="sidebar">
+        <div class="sidebar-header flex items-center" style="gap: 12px; padding: 20px">
+          <div style="background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 24px; font-style: italic;">S</div>
+          <div class="sidebar-logo-text">
+            <div style="font-size: 18px; font-weight: bold; letter-spacing: 1px">TOPPAY</div>
+            <div style="font-size: 10px; color: #9ca3af; letter-spacing: 1px">ADMIN PANEL</div>
+          </div>
+        </div>
+        <nav class="nav-links" style="overflow-y: auto">
+          <a href="dashboard.html" class="nav-link"><i data-lucide="circle"></i> Dashboard</a>
+          <a href="users.html" class="nav-link"><i data-lucide="circle"></i> Users</a>
+          <a href="slider.html" class="nav-link"><i data-lucide="circle"></i> Slider</a>
+          <a href="video-popup.html" class="nav-link"><i data-lucide="circle"></i> Video Popup</a>
+          <a href="telegram.html" class="nav-link"><i data-lucide="circle"></i> Telegram</a>
+          <a href="settings.html" class="nav-link"><i data-lucide="circle"></i> Settings</a>
+          <a href="trash.html" class="nav-link"><i data-lucide="circle"></i> Trash</a>
+          <a href="activity.html" class="nav-link"><i data-lucide="circle"></i> Activity Logs</a>
+          <a href="reports.html" class="nav-link"><i data-lucide="circle"></i> Reports</a>
+          <a href="banner.html" class="nav-link"><i data-lucide="circle"></i> Banner</a>
+          <a href="notifications.html" class="nav-link"><i data-lucide="circle"></i> Notifications</a>
+          <a href="profile.html" class="nav-link active"><i data-lucide="circle"></i> Profile</a>
+          <button class="nav-link" id="logoutBtn" style="color: #ef4444; margin-top: auto"><i data-lucide="log-out"></i><span>Logout</span></button>
+        </nav>
+        <div class="sidebar-footer" style="padding: 20px; border-top: 1px solid #374151; margin-top: auto; display: flex; align-items: center; gap: 12px;">
+          <div style="background: #3b82f6; color: white; width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"><i data-lucide="shield" style="width: 20px; height: 20px"></i></div>
+          <div class="sidebar-footer-text">
+            <div style="font-size: 14px; font-weight: 600">TopPay Admin</div>
+            <div style="font-size: 12px; color: #9ca3af">Super Administrator</div>
+          </div>
+        </div>
+      </aside>
+      <main class="main-content">
+        <header class="topbar">
+          <div class="flex items-center" style="gap: 16px">
+            <button id="sidebarToggle" style="background: none; border: none; cursor: pointer; color: #1f2937"><i data-lucide="menu"></i></button>
+            <h2 style="font-size: 20px">Admin Profile</h2>
+          </div>
+          <div class="flex items-center topbar-right" style="gap: 20px">
+            <div class="flex items-center" style="gap: 12px; cursor: pointer">
+              <img src="https://ui-avatars.com/api/?name=Admin&background=random" alt="Admin" style="width: 36px; height: 36px; border-radius: 50%" />
+              <div class="admin-profile-text">
+                <div style="font-size: 14px; font-weight: 600">Admin</div>
+                <div style="font-size: 12px; color: #6b7280">Super Admin</div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <div class="content-body">
+          <!-- Profile Card -->
+          <div class="card" style="max-width: 600px;">
+            <div style="text-align: center; margin-bottom: 30px;">
+              <img src="https://ui-avatars.com/api/?name=TopPay+Admin&background=3b82f6&color=fff&size=100&font-size=0.4" alt="Admin" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 16px; box-shadow: 0 4px 20px rgba(59,130,246,0.3);" />
+              <div style="font-size: 22px; font-weight: 700; color: #1e293b;" id="profileDisplayName">TopPay Admin</div>
+              <div style="font-size: 14px; color: #64748b;">Super Administrator</div>
+            </div>
+
+            <div class="form-group">
+              <label>Admin Name</label>
+              <input type="text" id="profileName" class="admin-input" placeholder="Admin Name" />
+            </div>
+
+            <div class="form-group">
+              <label>Admin Email</label>
+              <input type="email" id="profileEmail" class="admin-input" placeholder="admin@toppay.com" />
+            </div>
+
+            <div class="form-group">
+              <label>Current Password</label>
+              <input type="password" id="profileCurrentPassword" class="admin-input" placeholder="Enter current password" />
+            </div>
+
+            <div class="form-group">
+              <label>New Password (leave empty to keep current)</label>
+              <input type="password" id="profileNewPassword" class="admin-input" placeholder="Enter new password" />
+            </div>
+
+            <div id="profileMessage" class="hidden" style="padding: 12px; border-radius: 8px; font-size: 14px; margin-bottom: 16px;"></div>
+
+            <button id="saveProfileBtn" class="admin-btn">Save Changes</button>
+          </div>
+          
+          <!-- Active Sessions Card -->
+          <div class="card" style="max-width: 800px; margin-top: 20px;">
+            <div class="card-title">Active Sessions</div>
+            <p style="font-size: 14px; color: #6b7280; margin-bottom: 16px;">
+              Manage the devices where you are currently logged in.
+            </p>
+            <div class="table-responsive">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Device Info</th>
+                    <th>Last Active</th>
+                    <th>Started At</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="sessionsTableBody">
+                  <tr><td colspan="4" style="text-align:center;">Loading sessions...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+    <script type="module" src="../../user-app/js/config/supabase.js"></script>
+    <script type="module" src="../js/auth.js"></script>
+    <script type="module" src="../js/profile.js"></script>
+    <script>lucide.createIcons();</script>
+    <script type="module" src="../js/sidebar.js"></script>
+  </body>
+</html>

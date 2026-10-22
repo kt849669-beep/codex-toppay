@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">TopPay logo</title>
+  <desc id="desc">A black TopPay T mark with the TopPay wordmark.</desc>
+  <rect width="512" height="512" rx="92" fill="#ffffff"/>
+  <rect x="48" y="112" width="168" height="168" rx="42" fill="#050505"/>
+  <path d="M86 153h92v29h-30v58h-32v-58H86z" fill="#ffffff"/>
+  <text x="256" y="232" fill="#111111" font-family="Inter,Arial,sans-serif" font-size="68" font-weight="800" letter-spacing="-3">TopPay</text>
+  <rect x="48" y="326" width="416" height="12" rx="6" fill="#050505"/>
+</svg>
