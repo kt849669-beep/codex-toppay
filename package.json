@@ -8,7 +8,7 @@
     "build": "vite build",
     "start": "node server.mjs",
     "test": "node --test tests/*.test.mjs",
-    "deploy": "npm run build && wrangler deploy"
+    "deploy": "wrangler deploy"
   },
   "dependencies": {
     "lucide-react": "1.31.0",
@@ -22,5 +22,10 @@
   "engines": {
     "node": ">=20"
   },
-  "main": "server.mjs"
+  "main": "server.mjs",
+  "allowScripts": {
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.2": true,
+    "workerd@1.20261019.1": true
+  }
 }
